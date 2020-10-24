@@ -1,0 +1,15 @@
+springfox:
+    documentation:
+      swagger:
+        v2:
+          path: /api-docs
+
+server:
+  context-path: /Rain86/UserLogin2/1.0.0
+  port: 80
+
+spring:
+  jackson:
+    date-format: io.swagger.util.RFC3339DateFormat
+    serialization:
+      write-dates-as-timestamps: false
