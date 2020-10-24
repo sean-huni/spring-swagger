@@ -7,8 +7,8 @@ plugins {
 group = 'io'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
-def springFoxVer = '3.0.0'
-def threetenbpVer = '2.6.4'
+def springFoxVer = '2.9.1'
+def log4jVer = '2.13.3'
 
 configurations {
     compileOnly {
@@ -32,7 +32,9 @@ dependencies {
 //    implementation 'org.springframework.data:spring-data-rest-hal-explorer'
     implementation "io.springfox:springfox-swagger2:$springFoxVer"
     implementation "io.springfox:springfox-swagger-ui:$springFoxVer"
-    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbpVer"
+    implementation "org.apache.logging.log4j:log4j-core:$log4jVer"
+    implementation "org.apache.logging.log4j:log4j-api:$log4jVer"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'

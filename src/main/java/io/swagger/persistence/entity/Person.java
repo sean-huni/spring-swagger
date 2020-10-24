@@ -1,5 +1,6 @@
 package io.swagger.persistence.entity;
 
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ public class Person extends AbstractEntityClass {
     }
 
     /*
+    Spring-Data-REST Generated fields:
         @baseType (string, optional): When sub-classing, this defines the super-class ,
         @schemaLocation (string, optional): A URI to a JSON-Schema file that defines additional attributes and relationships ,
         @type (string, optional): When sub-classing, this defines the sub-class entity name ,

@@ -1,14 +1,21 @@
 package io.swagger.model;
 
+import java.time.ZonedDateTime;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.threeten.bp.OffsetDateTime;
+import io.swagger.util.ZonedDateTimeDeserializer;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+import static io.swagger.commons.Constants.ZONED_DATE_TIME_FORMAT;
 
 /**
  * Individual represents a single human being (a man, woman or child). The individual can be a customer, an employee or any other person that the organization needs to store information about.
@@ -27,14 +34,21 @@ public class Individual   {
   @JsonProperty("aristocraticTitle")
   private String aristocraticTitle = null;
 
+  @JsonSerialize(using = ZonedDateTimeSerializer.class)
+  @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
+  //2000-01-23T04:56:07.000+00:00
+  @JsonFormat(pattern = ZONED_DATE_TIME_FORMAT)
   @JsonProperty("birthDate")
-  private OffsetDateTime birthDate = null;
+  private ZonedDateTime birthDate = null;
 
   @JsonProperty("countryOfBirth")
   private String countryOfBirth = null;
 
+  @JsonSerialize(using = ZonedDateTimeSerializer.class)
+  @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
+  @JsonFormat(pattern = ZONED_DATE_TIME_FORMAT)
   @JsonProperty("deathDate")
-  private OffsetDateTime deathDate = null;
+  private ZonedDateTime deathDate = null;
 
   @JsonProperty("familyName")
   private String familyName = null;
@@ -115,7 +129,7 @@ public class Individual   {
     this.aristocraticTitle = aristocraticTitle;
   }
 
-  public Individual birthDate(OffsetDateTime birthDate) {
+  public Individual birthDate(ZonedDateTime birthDate) {
     this.birthDate = birthDate;
     return this;
   }
@@ -128,11 +142,11 @@ public class Individual   {
 
   @Valid
 
-  public OffsetDateTime getBirthDate() {
+  public ZonedDateTime getBirthDate() {
     return birthDate;
   }
 
-  public void setBirthDate(OffsetDateTime birthDate) {
+  public void setBirthDate(ZonedDateTime birthDate) {
     this.birthDate = birthDate;
   }
 
@@ -156,7 +170,7 @@ public class Individual   {
     this.countryOfBirth = countryOfBirth;
   }
 
-  public Individual deathDate(OffsetDateTime deathDate) {
+  public Individual deathDate(ZonedDateTime deathDate) {
     this.deathDate = deathDate;
     return this;
   }
@@ -169,11 +183,11 @@ public class Individual   {
 
   @Valid
 
-  public OffsetDateTime getDeathDate() {
+  public ZonedDateTime getDeathDate() {
     return deathDate;
   }
 
-  public void setDeathDate(OffsetDateTime deathDate) {
+  public void setDeathDate(ZonedDateTime deathDate) {
     this.deathDate = deathDate;
   }
 
