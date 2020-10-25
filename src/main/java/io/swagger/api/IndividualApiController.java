@@ -41,7 +41,7 @@ public class IndividualApiController implements IndividualApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Individual>(objectMapper.readValue("{  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"fullName\" : \"fullName\",  \"id\" : \"id\",  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+00:00\"}", Individual.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Individual>(objectMapper.readValue("{  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"fullName\" : \"fullName\",  \"id\" : 1,  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+00:00\"}", Individual.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Individual>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -60,7 +60,7 @@ public class IndividualApiController implements IndividualApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<Individual>>(objectMapper.readValue("[ {  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"fullName\" : \"fullName\",  \"id\" : \"id\",  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+00:00\"}, {  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"fullName\" : \"fullName\",  \"id\" : \"id\",  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+00:00\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<Individual>>(objectMapper.readValue("[ {  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"fullName\" : \"fullName\",  \"id\" : 1,  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+00:00\"}, {  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"fullName\" : \"fullName\",  \"id\" : 1,  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+00:00\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<Individual>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,7 +74,7 @@ public class IndividualApiController implements IndividualApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Individual>(objectMapper.readValue("{  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"fullName\" : \"fullName\",  \"id\" : \"id\",  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+00:00\"}", Individual.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Individual>(objectMapper.readValue("{  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"fullName\" : \"fullName\",  \"id\" : 1,  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+00:00\"}", Individual.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Individual>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,7 +88,7 @@ public class IndividualApiController implements IndividualApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Individual>(objectMapper.readValue("{  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+02:00\",  \"fullName\" : \"fullName\",  \"id\" : \"id\",  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+02:30\"}", Individual.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Individual>(objectMapper.readValue("{  \"aristocraticTitle\" : \"aristocraticTitle\",  \"gender\" : \"gender\",  \"@baseType\" : \"@baseType\",  \"countryOfBirth\" : \"countryOfBirth\",  \"@type\" : \"@type\",  \"familyName\" : \"familyName\",  \"deathDate\" : \"2000-01-23T04:56:07.000+02:00\",  \"fullName\" : \"fullName\",  \"id\" : 1,  \"href\" : \"href\",  \"@schemaLocation\" : \"http://example.com/aeiou\",  \"birthDate\" : \"2000-01-23T04:56:07.000+02:30\"}", Individual.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Individual>(HttpStatus.INTERNAL_SERVER_ERROR);

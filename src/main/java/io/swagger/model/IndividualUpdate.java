@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.awt.*;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
@@ -26,7 +27,7 @@ import static io.swagger.commons.Constants.ZONED_DATE_TIME_FORMAT;
 
 public class IndividualUpdate   {
   @JsonProperty("id")
-  private String id = null;
+  private Long id = null;
 
   @JsonProperty("href")
   private String href = null;
@@ -67,7 +68,7 @@ public class IndividualUpdate   {
   @JsonProperty("@type")
   private String type = null;
 
-  public IndividualUpdate id(String id) {
+  public IndividualUpdate id(Long id) {
     this.id = id;
     return this;
   }
@@ -80,11 +81,11 @@ public class IndividualUpdate   {
   @NotNull
 
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

@@ -7,7 +7,7 @@ plugins {
 group = 'io'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
-def springFoxVer = '2.9.1'
+def springFoxVer = '3.0.0'
 def log4jVer = '2.13.3'
 
 configurations {
@@ -18,8 +18,6 @@ configurations {
 
 repositories {
     mavenCentral()
-    jcenter()
-    jcenter{ uri 'http://oss.jfrog.org/artifactory/oss-snapshot-local/'}
     maven { url 'https://repo.spring.io/milestone' }
 }
 
@@ -31,6 +29,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 //    implementation 'org.springframework.data:spring-data-rest-hal-explorer'
     implementation "io.springfox:springfox-swagger2:$springFoxVer"
+    implementation "io.springfox:springfox-boot-starter:$springFoxVer"
     implementation "io.springfox:springfox-swagger-ui:$springFoxVer"
     implementation "org.apache.logging.log4j:log4j-core:$log4jVer"
     implementation "org.apache.logging.log4j:log4j-api:$log4jVer"

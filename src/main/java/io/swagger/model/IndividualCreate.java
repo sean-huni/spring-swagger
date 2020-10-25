@@ -26,48 +26,48 @@ import static io.swagger.commons.Constants.ZONED_DATE_TIME_FORMAT;
 
 public class IndividualCreate   {
   @JsonProperty("id")
-  private String id = null;
+  private Long id;
 
   @JsonProperty("href")
-  private String href = null;
+  private String href;
 
   @JsonProperty("aristocraticTitle")
-  private String aristocraticTitle = null;
+  private String aristocraticTitle;
 
   @JsonSerialize(using = ZonedDateTimeSerializer.class)
   @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
   @JsonFormat(pattern =ZONED_DATE_TIME_FORMAT)
   @JsonProperty("birthDate")
-  private ZonedDateTime birthDate = null;
+  private ZonedDateTime birthDate;
 
   @JsonProperty("countryOfBirth")
-  private String countryOfBirth = null;
+  private String countryOfBirth;
 
   @JsonSerialize(using = ZonedDateTimeSerializer.class)
   @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
   @JsonFormat(pattern = ZONED_DATE_TIME_FORMAT)
   @JsonProperty("deathDate")
-  private ZonedDateTime deathDate = null;
+  private ZonedDateTime deathDate;
 
   @JsonProperty("familyName")
-  private String familyName = null;
+  private String familyName;
 
   @JsonProperty("fullName")
-  private String fullName = null;
+  private String fullName;
 
   @JsonProperty("gender")
-  private String gender = null;
+  private String gender;
 
   @JsonProperty("@baseType")
-  private String baseType = null;
+  private String baseType;
 
   @JsonProperty("@schemaLocation")
-  private String schemaLocation = null;
+  private String schemaLocation;
 
   @JsonProperty("@type")
-  private String type = null;
+  private String type;
 
-  public IndividualCreate id(String id) {
+  public IndividualCreate id(Long id) {
     this.id = id;
     return this;
   }
@@ -80,11 +80,11 @@ public class IndividualCreate   {
   @NotNull
 
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
