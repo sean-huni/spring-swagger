@@ -1,0 +1,1 @@
+insert into party_identity.person(id, aristocratic_title, full_name, family_name, gender, birth_date, country_of_birth, death_date, created, last_updated, version) values (1, 'Elf', 'Sean', 'Huni', 'Male', '1989-08-24', 'Zimbabwe', null, CURRENT_DATE(), current_date(), 1);

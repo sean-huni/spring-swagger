@@ -20,8 +20,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class AbstractEntityClass implements EntityInterface, Serializable {
     private static final long serialVersionUID = 12054834772323L;
-    //    @Getter(AccessLevel.NONE)
-    //    @Setter(AccessLevel.NONE)
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;                    // (string): Unique identifier of the organization

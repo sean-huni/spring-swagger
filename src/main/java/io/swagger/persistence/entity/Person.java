@@ -1,12 +1,10 @@
 package io.swagger.persistence.entity;
 
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -19,6 +17,7 @@ import java.time.LocalDate;
 @Table(schema = "party_identity", name = "person")
 public class Person extends AbstractEntityClass {
 
+    @Length(min = 1, max = 50)
     private String aristocraticTitle;   // (string, optional): e.g. Baron, Graf, Earl,… ,
     private String familyName;          // (string, optional): Contains the non-chosen or inherited name. Also known as last name in the Western context ,
     private String fullName;            // (string, optional): Full name flatten (first, middle, and last names) ,
@@ -40,12 +39,4 @@ public class Person extends AbstractEntityClass {
     public void setId(Long id) {
         super.setId(id);
     }
-
-    /*
-    Spring-Data-REST Generated fields:
-        @baseType (string, optional): When sub-classing, this defines the super-class ,
-        @schemaLocation (string, optional): A URI to a JSON-Schema file that defines additional attributes and relationships ,
-        @type (string, optional): When sub-classing, this defines the sub-class entity name ,
-        href (string, optional): Hyperlink to access the organization ,
-     */
 }
