@@ -1,7 +1,8 @@
-package io.swagger.configuration;
+package io.swagger.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -11,10 +12,12 @@ import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.util.function.Predicate;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-08T11:42:54.708Z")
 
 @Configuration
-public class SwaggerDocumentationConfig {
+public class SwaggerConfig {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -34,9 +37,14 @@ public class SwaggerDocumentationConfig {
                 .tags(new Tag("Person Entity", "Repository for People's entities"))
                 .select()
                 .apis(RequestHandlerSelectors.any())
+                .apis(not(RequestHandlerSelectors.basePackage("org.springframework.boot")))
+                .apis(not(RequestHandlerSelectors.basePackage("io.swagger.rest")))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
     }
 
+    private static Predicate<RequestHandler> not(Predicate<RequestHandler> requestHandlerPredicate) {
+        return input -> !requestHandlerPredicate.test(input);
+    }
 }

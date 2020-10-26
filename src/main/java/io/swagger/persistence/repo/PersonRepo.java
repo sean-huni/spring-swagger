@@ -16,19 +16,3 @@ public interface PersonRepo extends JpaRepository<Person, Long> {
 
     List<Person> findAllByFullNameContainingIgnoreCase(@Param("fullName") String fullName);
 }
-
-
-/*
-{
-  "aristocraticTitle": "Elf",
-  "birthDate": "1989-08-24",
-  "countryOfBirth": "Zimbabwe",
-  "created": "2020-10-25T10:49:35.937Z",
-  "deathDate": null,
-  "familyName": "Huni",
-  "fullName": "Sean",
-  "gender": "Male",
-  "lastUpdated": "2020-10-25T10:49:35.937Z",
-  "version": 2
-}
- */
