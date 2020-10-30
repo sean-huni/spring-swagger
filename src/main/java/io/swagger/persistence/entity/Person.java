@@ -23,9 +23,9 @@ import java.time.ZonedDateTime;
 public class Person extends AbstractEntityClass {
 
     @ApiModelProperty(value = "e.g. Baron, Graf, Earl,…")
-    @NotNull
     @Length(min = 1, max = 50)
     private String aristocraticTitle;   // (string, optional): e.g. Baron, Graf, Earl,… ,
+    @NotNull
     @ApiModelProperty(value = "Contains the non-chosen or inherited name. Also known as last name in the Western context")
     private String familyName;          // (string, optional): Contains the non-chosen or inherited name. Also known as last name in the Western context ,
     @ApiModelProperty(value = "Full name flatten (first, middle, and last names)")

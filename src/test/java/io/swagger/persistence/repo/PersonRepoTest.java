@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ class PersonRepoTest {
 
     @Test
     @DisplayName("Find at least 1 Individual/person record in the Person-Table")
+    @WithMockUser(username = "spring", roles = "SERVICE")
     void givenPersonRepo_returnRecordsInTable() {
         List<Person> personList = personRepo.findAll();
 
@@ -53,6 +55,7 @@ class PersonRepoTest {
     }
 
     @Test
+    @WithMockUser(username = "spring", roles = "SERVICE")
     @DisplayName("Save at least 1 other Individual/person record in the Person-Table")
     @DirtiesContext
     void givenPersonRepo_saveNewRecordInTable() throws IOException {

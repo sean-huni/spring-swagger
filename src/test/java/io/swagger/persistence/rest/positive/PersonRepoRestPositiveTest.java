@@ -1,4 +1,4 @@
-package io.swagger.persistence.rest;
+package io.swagger.persistence.rest.positive;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,7 +39,8 @@ public class PersonRepoRestPositiveTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("find-All-By-FullName-Containing-IgnoreCase")
+    @WithMockUser(username = "spring", roles = "SERVICE")
+    @DisplayName("find-All-By-FullName-Containing-IgnoreCase - HTTP.GET")
     void givenMockMvc_whenInvokingFindAllByFullNameContainingIgnoreCase_thenReturnSuccess_withPersonDatabaseObject() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get(ROOT_URI + "/people/search/findAllByFullNameContainingIgnoreCase?fullName=Se")
                 .contentType("application/json"))
@@ -51,7 +54,8 @@ public class PersonRepoRestPositiveTest {
     }
 
     @Test
-    @DisplayName("Save New Person")
+    @WithMockUser(username = "spring", roles = "SERVICE")
+    @DisplayName("Save New Person - HTTP.POST")
     @DirtiesContext
     void givenMockMvc_whenSavingNewPerson_thenReturnIsCreated_withRedirectedUrlToNewPersonObject() throws Exception {
         Resource resource = resourceLoader.getResource("classpath:json/test-case.json");
@@ -65,13 +69,28 @@ public class PersonRepoRestPositiveTest {
                 .andExpect(status().isCreated())
                 .andExpect(redirectedUrl("http://localhost/api=false/people/2"))
                 .andReturn();
-
     }
 
     @Test
-    @DisplayName("Find Existing Person")
-    void givenMockMvc_whenFetchingPerson_thenReturnExistingPerson_withSuccess() throws Exception {
+    @WithMockUser(username = "spring", roles = "SERVICE")
+    @DisplayName("Update an Existing Person - HTTP.PATCH")
+    @DirtiesContext
+    void givenMockMvc_whenUpdatingAnExistingPerson_thenReturnIsCreated_withRedirectedUrlToNewPersonObject() throws Exception {
+        String jsonStr = "{\"countryOfBirth\": \"England\", \"familyName\": \"Parkinson\",\"fullName\": \"Queen\",\"gender\": \"Female\"}";
+        LOGGER.info("Test-Case: \n{}", jsonStr);
 
+        mockMvc.perform(patch(ROOT_URI + "/people/1")
+                .contentType("application/json")
+                .content(jsonStr))
+                .andDo(print())
+                .andExpect(status().isNoContent())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "spring", roles = "SERVICE")
+    @DisplayName("Find Existing Person - HTTP.GET")
+    void givenMockMvc_whenFetchingPerson_thenReturnExistingPerson_withSuccess() throws Exception {
         mockMvc.perform(get(ROOT_URI + "/people/1")
                 .contentType("application/json"))
                 .andDo(print())
@@ -79,11 +98,11 @@ public class PersonRepoRestPositiveTest {
                 .andExpect(jsonPath("$.fullName", is("Sean")))
                 .andExpect(jsonPath("$.familyName", is("Huni")))
                 .andReturn();
-
     }
 
     @Test
-    @DisplayName("Delete An Existing Person")
+    @WithMockUser(username = "spring", roles = "SERVICE")
+    @DisplayName("Delete An Existing Person - HTTP.DELETE")
     @DirtiesContext
     void givenMockMvc_whenDeletingPerson_thenSucceed() throws Exception {
         mockMvc.perform(delete(ROOT_URI + "/people/1")

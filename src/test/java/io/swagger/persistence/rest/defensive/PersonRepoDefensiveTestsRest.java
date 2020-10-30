@@ -1,8 +1,7 @@
-package io.swagger.persistence.rest;
+package io.swagger.persistence.rest.defensive;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,14 +11,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static util.TestUtility.fromStreamToString;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @AutoConfigureMockMvc
 public class PersonRepoDefensiveTestsRest {
     private static final String ROOT_URI = "/api=false";
@@ -36,17 +36,7 @@ public class PersonRepoDefensiveTestsRest {
     private ResourceLoader resourceLoader;
 
     @Autowired
-    private WebApplicationContext context;
-
     private MockMvc mockMvc;
-
-    @BeforeEach
-    public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .apply(springSecurity())
-                .build();
-    }
-
 
     @Test
     @DisplayName("Create-Failing Person ")
@@ -68,4 +58,34 @@ public class PersonRepoDefensiveTestsRest {
                 .andExpect(jsonPath("$.message", is("Please check the input-values in your request-payload and try again.")))
                 .andReturn();
     }
+
+    @Test
+    @WithMockUser(username = "spring", roles = "SERVICE")
+    @DisplayName("Update a non-Existing Person - HTTP.PATCH")
+    @DirtiesContext
+    void givenMockMvc_whenUpdatingAnExistingPerson_thenReturnIsCreated_withRedirectedUrlToNewPersonObject() throws Exception {
+        String jsonStr = "{\"countryOfBirth\": \"England\", \"familyName\": \"Parkinson\",\"fullName\": \"Queen\",\"gender\": \"Female\"}";
+        LOGGER.info("Test-Case: \n{}", jsonStr);
+
+        mockMvc.perform(patch(ROOT_URI + "/people/100")
+                .contentType("application/json")
+                .content(jsonStr))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "spring", roles = "SERVICE")
+    @DisplayName("Delete A Non-Existing Person - HTTP.DELETE")
+    @DirtiesContext
+    void givenMockMvc_whenDeletingPerson_thenSucceed() throws Exception {
+        mockMvc.perform(delete(ROOT_URI + "/people/0")
+                .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
+                .andReturn();
+    }
+
 }

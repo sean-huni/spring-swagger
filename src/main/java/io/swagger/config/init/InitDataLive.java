@@ -1,11 +1,13 @@
 package io.swagger.config.init;
 
+import io.swagger.SecurityUtility;
 import io.swagger.commons.Gender;
 import io.swagger.config.InitData;
 import io.swagger.persistence.entity.Person;
 import io.swagger.persistence.repo.PersonRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -25,9 +27,11 @@ public class InitDataLive implements InitData {
 
     @PostConstruct
     void check1stRecord() throws Exception {
+        SecurityUtility.createSecurityContext("admin", "admin_password", "ROLE_SERVICE");
         personRepo.save(createRecord());
         Optional<Person> optionalPerson = personRepo.findAllByFullNameContainingIgnoreCase("ea").stream().findFirst();
         optionalPerson.orElseThrow(Exception::new); //should not happen at all. throw exception.
+        SecurityContextHolder.clearContext();
     }
 
     private Person createRecord() {

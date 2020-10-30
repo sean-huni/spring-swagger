@@ -1,11 +1,13 @@
 package io.swagger.config.init;
 
+import io.swagger.SecurityUtility;
 import io.swagger.commons.Gender;
 import io.swagger.config.InitData;
 import io.swagger.persistence.entity.Person;
 import io.swagger.persistence.repo.PersonRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +26,9 @@ public class InitDataTest implements InitData {
 
     @PostConstruct
     public void check1stRecord() {
+        SecurityUtility.createSecurityContext("spring", "spring_password", "ROLE_SERVICE");
         personRepo.save(createRecord());
+        SecurityContextHolder.clearContext();
     }
 
     private Person createRecord() {
