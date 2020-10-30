@@ -1,41 +1,58 @@
 package io.swagger.persistence.entity;
 
-import lombok.AccessLevel;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.commons.Gender;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.time.ZonedDateTime;
 
+@ApiModel(description = "Individual-Person represents a single human being (a man, woman or child). The individual can be a customer, an employee or any other person that the organization needs to store information about.")
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ToString(callSuper = true)
+@Entity
+@Table(schema = "party_identity", name = "person")
 public class Person extends AbstractEntityClass {
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private Long id;                    // (string): Unique identifier of the organization
+
+    @ApiModelProperty(value = "e.g. Baron, Graf, Earl,…")
+    @Length(min = 1, max = 50)
     private String aristocraticTitle;   // (string, optional): e.g. Baron, Graf, Earl,… ,
+    @NotNull
+    @ApiModelProperty(value = "Contains the non-chosen or inherited name. Also known as last name in the Western context")
     private String familyName;          // (string, optional): Contains the non-chosen or inherited name. Also known as last name in the Western context ,
+    @ApiModelProperty(value = "Full name flatten (first, middle, and last names)")
+    @NotNull
+    @Length(min = 1, max = 255)
     private String fullName;            // (string, optional): Full name flatten (first, middle, and last names) ,
-    private String gender;              // (string, optional): Gender ,
-    private LocalDate birthDate;        // (string, optional): Birth date ,
+    @ApiModelProperty(value = "Gender")
+    @NotNull
+    private Gender gender;              // (string, optional): Gender ,
+    @ApiModelProperty(value = "Birth date")
+    private ZonedDateTime birthDate;        // (string, optional): Birth date ,
+    @ApiModelProperty(value = "Country where the individual was born")
     private String countryOfBirth;      // (string, optional): Country where the individual was born ,
-    private LocalDate deathDate;        // (string, optional): Date of death ,
+    @ApiModelProperty(value = "Date of death")
+    private ZonedDateTime deathDate;        // (string, optional): Date of death ,
+
+    public Person() {
+        super();
+    }
 
     @Override
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
     @Override
     public void setId(Long id) {
-        this.id = id;
+        super.setId(id);
     }
-
-    /*
-        @baseType (string, optional): When sub-classing, this defines the super-class ,
-        @schemaLocation (string, optional): A URI to a JSON-Schema file that defines additional attributes and relationships ,
-        @type (string, optional): When sub-classing, this defines the sub-class entity name ,
-        href (string, optional): Hyperlink to access the organization ,
-     */
 }
