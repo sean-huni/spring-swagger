@@ -59,11 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.httpBasic().and()
-                .authorizeRequests().//
-                antMatchers(HttpMethod.POST, "/people").hasRole("ADMIN").//
-                antMatchers(HttpMethod.PUT, "/people/**").hasRole("SERVICE").//
-                antMatchers(HttpMethod.PATCH, "/people/**").hasRole("SERVICE").//
-                antMatchers(HttpMethod.DELETE, "/people/**").hasRole("ADMIN").and()
+                .authorizeRequests()//
+                .antMatchers(HttpMethod.POST, "/people").hasRole("ADMIN")//
+                .antMatchers(HttpMethod.PUT, "/people/**").hasRole("SERVICE")//
+                .antMatchers(HttpMethod.PATCH, "/people/**").hasRole("SERVICE")//
+                .antMatchers(HttpMethod.DELETE, "/people/**").hasRole("ADMIN").and()
                 .csrf().disable()
                 .antMatcher("**/h2-console/**").authorizeRequests().anyRequest().permitAll();
     }

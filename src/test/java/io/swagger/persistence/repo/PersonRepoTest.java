@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -23,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static util.TestUtility.fromStreamToString;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class PersonRepoTest {
     private static final Logger LOGGER = LogManager.getLogger(PersonRepoTest.class);
     @Autowired
@@ -47,7 +49,7 @@ class PersonRepoTest {
     @Test
     @DisplayName("Find at least 1 Individual/person record in the Person-Table")
     @WithMockUser(username = "spring", roles = "SERVICE")
-    void givenPersonRepo_returnRecordsInTable() {
+    void givenPersonRepo_whenInvokingPersonRepoFind_returnOnePersonInTable() {
         List<Person> personList = personRepo.findAll();
 
         assertNotNull(personList);
@@ -58,16 +60,19 @@ class PersonRepoTest {
     @WithMockUser(username = "spring", roles = "SERVICE")
     @DisplayName("Save at least 1 other Individual/person record in the Person-Table")
     @DirtiesContext
-    void givenPersonRepo_saveNewRecordInTable() throws IOException {
+    void givenPersonJsonString_whenSavingNewPerson_thenSaveNewPerson() throws IOException {
         Resource resource = resourceLoader.getResource("classpath:json/test-case.json");
         String jsonStr = fromStreamToString(resource.getInputStream());
         LOGGER.info("Test-Case: \n{}", jsonStr);
 
         Person testUnsavedPerson = objectMapper.readValue(jsonStr, Person.class);
-        personRepo.save(testUnsavedPerson);
+        Person p = personRepo.save(testUnsavedPerson);
+
+        assertNotNull(p);
+        assertEquals(2, p.getId());
 
         List<Person> personList = personRepo.findAll();
-        assertNotNull(personList);
+        assertNotNull(p);
         assertEquals(2, personList.size());
     }
 }

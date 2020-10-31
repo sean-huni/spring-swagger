@@ -26,7 +26,7 @@ public class InitDataTest implements InitData {
 
     @PostConstruct
     public void check1stRecord() {
-        SecurityUtility.createSecurityContext("spring", "spring_password", "ROLE_SERVICE");
+        SecurityUtility.createSecurityContext("spring", "spring_password", "ROLE_SERVICE", "ROLE_ADMIN");
         personRepo.save(createRecord());
         SecurityContextHolder.clearContext();
     }
