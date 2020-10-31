@@ -30,13 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         UserDetails adminUser = User.withUsername(adminUsername).password(encoder.encode(adminPassword)).roles("SERVICE", "ADMIN").build();
-        UserDetails demoUser = User.withUsername(serviceUsername).password(encoder.encode(servicePassword)).roles("SERVICE").build();
+        UserDetails serviceUser = User.withUsername(serviceUsername).password(encoder.encode(servicePassword)).roles("SERVICE").build();
 
         // remember the password that is printed out and use in the next step
         log.info("Username: {}, Password: {}", adminUsername, adminPassword);
         log.info("Username: {}, Password: {}", serviceUsername, servicePassword);
 
-        return new InMemoryUserDetailsManager(adminUser, demoUser);
+        return new InMemoryUserDetailsManager(adminUser, serviceUser);
     }
 
     /**
