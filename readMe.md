@@ -8,15 +8,15 @@ What are the standard CRUD(Create, Read, Update, Delete) operations of developin
 How do we present it formally using HTTP Methods?
 - HTTP.POST -> To create a new resource.
 - HTTP.GET -> To retrieve an existing resource.
-- HTTP.PUT -> To update a resource.
+- HTTP.PUT -> To update an entire resource.
 - HTTP.PATCH -> To perform a partial update to an existing resource.
 - HTTP.DELETE -> delete an existing resource.
 
-#### How can we use Spring Data Rest to create operations that enable the above?
-#### How can we secure(with Spring Security) our restful API & protect it from unauthorised access?
-#### How can we enforce validations to the incoming request-payload to avoid incomplete/corrupt data to be saved in the Database?
-#### How do we adopt a TDD (Test Driven Development) approach to write good quality tests?
-#### How do we write tests for Spring Data Rest, Spring Security, Defensive Tests, Positive Scenarios Tests?
+1. ##### How can we use Spring Data Rest to create operations that enable the above?
+2. ##### How can we secure(with Spring Security) our restful API & protect it from unauthorised access?
+3. ##### How can we enforce validations to the incoming request-payload to avoid incomplete/corrupt data to be saved in the Database?
+4. ##### How do we adopt a TDD (Test Driven Development) approach to write good quality tests?
+5. ##### How do we write tests for Spring Data Rest, Spring Security, Defensive Tests, Positive Scenarios Tests?
 
 ## Launching The Project
 There are various ways of launching the project. Either from an IDE(Integrated Development Environment) or from the Terminal.
@@ -31,10 +31,26 @@ Right click & run the SpringSwaggerApplication.java
 Current working directory: Project root.
 Execute the following to launch the project:
 
-    ./gradlew bootRun
+ - On Unix/MacOS
+ 
+    `./gradlew bootRun`
+    
+ - On Windows:
 
+    `gradlew.bat run`
+    
 Ctrl+C to terminate the application in execution.
-
+ 
+### Executing the Tests
+     
+* On Unix/MacOS:
+    
+    `sh gradlew test`
+       
+* On Windows: 
+    
+    `gradlew.bat test`
+ 
 # Restful API Swagger-Documentation
 Once the application has been launched successfully, it's now time to play with it.
 * [API Reference Documentation](http://localhost:8082/customer-service)
