@@ -43,6 +43,7 @@ Click on Person's Entity to Expand the operations of th API.
 ### Additional Links & References
 * [Best Practices for Restful API Design](https://avaldes.com/best-practices-for-restful-api-design/)
 * [Spring Security](https://docs.spring.io/spring-boot/docs/2.3.5.RELEASE/reference/htmlsingle/#boot-features-security)
+* [Spring Data Security Examples](https://github.com/spring-projects/spring-data-examples)
 
 # Future Work
 Part of making developing our Restful API. It is critical our API is versioned correctly for future changes & releases.
