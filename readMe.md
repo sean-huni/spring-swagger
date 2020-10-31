@@ -4,7 +4,7 @@ In light of some of the challenges experienced in most Java EE projects, this pr
 formalities in the structure & manner in which restful APi's should be delivered to other teams. 
 
 ### Questions we aim to address
-What are the standard CRUD(Create, Read, Update, Delete) operations of developing a Restful API that stipulated?
+What are the standard CRUD(Create, Read, Update, Delete) operations of developing a Restful API?
 How do we present it formally using HTTP Methods?
 - HTTP.POST -> To create a new resource.
 - HTTP.GET -> To retrieve an existing resource.
@@ -18,7 +18,7 @@ How do we present it formally using HTTP Methods?
 #### How do we adopt a TDD (Test Driven Development) approach to write good quality tests?
 #### How do we write tests for Spring Data Rest, Spring Security, Defensive Tests, Positive Scenarios Tests?
 
-## Launching The project
+## Launching The Project
 There are various ways of launching the project. Either from an IDE(Integrated Development Environment) or from the Terminal.
 
 ### IntelliJ IDE
@@ -34,3 +34,20 @@ Execute the following to launch the project:
     ./gradlew bootRun
 
 Ctrl+C to terminate the application in execution.
+
+# Restful API Swagger-Documentation
+Once the application has been launched successfully, it's now time to play with it.
+* [API Reference Documentation](http://localhost:8082/customer-service)
+Click on Person's Entity to Expand the operations of th API.
+
+### Additional Links & References
+* [Best Practices for Restful API Design](https://avaldes.com/best-practices-for-restful-api-design/)
+* [Spring Security](https://docs.spring.io/spring-boot/docs/2.3.5.RELEASE/reference/htmlsingle/#boot-features-security)
+
+# Future Work
+Part of making developing our Restful API. It is critical our API is versioned correctly for future changes & releases.
+What are the Best Practices of Versioning our Restful API?
+* [Thread on REST API Versioning with Spring](https://stackoverflow.com/questions/20198275/how-to-manage-rest-api-versioning-with-spring)
+
+# About the Author
+* [Sean's Resume](https://sean-huni.xyz)
