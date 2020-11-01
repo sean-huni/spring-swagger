@@ -40,6 +40,9 @@ Execute the following to launch the project:
     `gradlew.bat run`
     
 Ctrl+C to terminate the application in execution.
+
+### Next Up!!! The Browser
+* Url where the local-app is running: [http://localhost:8082/customer-service](http://localhost:8082/customer-service)
  
 ### Executing the Tests
      
