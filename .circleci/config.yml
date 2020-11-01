@@ -108,7 +108,7 @@ jobs:
           -Dsonar.projectKey=sean-huni_spring-swagger
           -Dsonar.organization=sean-huni-github
           -Dsonar.host.url=https://sonarcloud.io
-          -Dsonar.login=162248aeafe59568304caa3c2e4276a7418e0525
+          -Dsonar.login=a9fdc4d1014867bce97e3c0d71305e36af4e791d
 
 workflows:
   version: 2
