@@ -1,3 +1,6 @@
+# Ci Status
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sean-huni_spring-swagger&metric=alert_status)](https://sonarcloud.io/dashboard?id=sean-huni_spring-swagger)
+
 # Swagger Spring Boot Project
 
 In light of some of the challenges experienced in most Java EE projects, this project have been built to express some 
