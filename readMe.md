@@ -1,5 +1,6 @@
-# Ci Status
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sean-huni_spring-swagger&metric=alert_status)](https://sonarcloud.io/dashboard?id=sean-huni_spring-swagger)
+# Continuous Integration Code Metrics
+* Ci Last Build Status: [![CircleCI](https://circleci.com/gh/sean-huni/spring-swagger/tree/dev.svg?style=svg)](https://circleci.com/gh/sean-huni/spring-swagger/tree/dev) 
+* Quality Gates: [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sean-huni_spring-swagger&metric=alert_status)](https://sonarcloud.io/dashboard?id=sean-huni_spring-swagger)
 
 # Swagger Spring Boot Project
 

@@ -105,10 +105,10 @@ jobs:
 
       # Code Quality Metrics (Sonarqube) >> Code Quality Metrics (Sonarqube)
       - run: sh gradlew sonarqube \
-          -Dsonar.projectKey=sean-huni_spring-swagger \
+          -Dsonar.projectKey=spring-swagger \
           -Dsonar.organization=sean-huni-github \
           -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=7726168c7f4f27014f840021395a5e285e5ea054 \
+          -Dsonar.login=824da7be7841592fcbbf917b2d1e9b942361e421 \
           -Dsonar.verbose=true --stacktrace
 
 workflows:
