@@ -104,11 +104,12 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # Code Quality Metrics (Sonarqube) >> Code Quality Metrics (Sonarqube)
-      - run: sh gradlew sonarqube
-          -Dsonar.projectKey=sean-huni_spring-swagger
-          -Dsonar.organization=sean-huni-github
-          -Dsonar.host.url=https://sonarcloud.io
-          -Dsonar.login=a9fdc4d1014867bce97e3c0d71305e36af4e791d
+      - run: sh gradlew sonarqube \
+          -Dsonar.projectKey=sean-huni_spring-swagger \
+          -Dsonar.organization=sean-huni-github \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=a9fdc4d1014867bce97e3c0d71305e36af4e791d \
+          -Dsonar.verbose=true --stacktrace
 
 workflows:
   version: 2
