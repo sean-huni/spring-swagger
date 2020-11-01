@@ -85,6 +85,7 @@ sonarqube {
     properties {
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.projectName", "Spring-Swagger"
+        property "sonar.projectKey", "spring-swagger"
         property "sonar.sources", "${sourceSets.main.allSource.srcDirs}"
         property "sonar.tests", "${sourceSets.test.allSource.srcDirs}"
     }
