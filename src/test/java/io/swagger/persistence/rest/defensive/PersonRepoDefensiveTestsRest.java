@@ -56,6 +56,7 @@ public class PersonRepoDefensiveTestsRest {
                 .andExpect(jsonPath("$.code", is("Bad Request")))
                 .andExpect(jsonPath("$.status", is("400")))
                 .andExpect(jsonPath("$.message", is("Please check the input-values in your request-payload and try again.")))
+                .andExpect(jsonPath("$.referenceError", is(ROOT_URI + "/people")))
                 .andReturn();
     }
 

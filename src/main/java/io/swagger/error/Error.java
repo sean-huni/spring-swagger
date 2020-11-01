@@ -14,8 +14,6 @@ import javax.validation.constraints.NotNull;
 @Data
 @ApiModel(description = "Used when an API throws an Error, typically with a HTTP error response-code (3xx, 4xx, 5xx)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-08T11:42:54.708Z")
-
 public class Error {
     @ApiModelProperty(required = true, value = "Application relevant detail, defined in the API or a common list.")
     @NotNull
@@ -38,18 +36,6 @@ public class Error {
     @ApiModelProperty(value = "URI of documentation describing the error.")
     @JsonProperty("referenceError")
     private String referenceError;
-
-    @ApiModelProperty(value = "When sub-classing, this defines the super-class.")
-    @JsonProperty("@baseType")
-    private String baseType;
-
-    @ApiModelProperty(value = "A URI to a JSON-Schema file that defines additional attributes and relationships")
-    @JsonProperty("@schemaLocation")
-    private String schemaLocation;
-
-    @ApiModelProperty(value = "When sub-classing, this defines the sub-class entity name.")
-    @JsonProperty("@type")
-    private String type;
 
     public Error code(String code) {
         this.code = code;
@@ -75,22 +61,6 @@ public class Error {
         this.referenceError = referenceError;
         return this;
     }
-
-    public Error baseType(String baseType) {
-        this.baseType = baseType;
-        return this;
-    }
-
-    public Error schemaLocation(String schemaLocation) {
-        this.schemaLocation = schemaLocation;
-        return this;
-    }
-
-    public Error type(String type) {
-        this.type = type;
-        return this;
-    }
-
 
     /**
      * Convert the given object to string with each line indented by 4 spaces
