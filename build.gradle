@@ -14,6 +14,8 @@ def springFoxVer = '3.0.0'
 def log4jVer = '2.13.3'
 //def springDataMock = '2.1.1'
 
+
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
