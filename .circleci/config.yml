@@ -112,7 +112,7 @@ workflows:
     jobs:
       - build:
           filters:
-            context: SonarCloud
+            context: Spring-Swagger
             branches:
               only:
                 - dev
