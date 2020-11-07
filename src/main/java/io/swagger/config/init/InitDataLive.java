@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 @Component
 @Profile("live")
@@ -26,11 +27,16 @@ public class InitDataLive implements InitData {
 
     @PostConstruct
     void check1stRecord() throws Exception {
+        String s = "Service record was not found in Database";
         SecurityUtility.createSecurityContext("admin", "admin_password", "ROLE_SERVICE");
         personRepo.save(createRecord());
-        personRepo.findAllByFullNameContainingIgnoreCase("ea").stream().findFirst()
-                .orElseThrow(Exception::new); //should not happen at all. throw exception.
+        Person p = personRepo.findAllByFullNameContainingIgnoreCase("ea").stream().findFirst()
+                .orElseThrow(() -> new Exception(s)); //should not happen at all. throw exception.
         SecurityContextHolder.clearContext();
+
+        if (Objects.isNull(p)) {
+            throw new Exception(s);
+        }
     }
 
     private Person createRecord() {

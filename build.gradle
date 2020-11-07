@@ -8,7 +8,7 @@ plugins {
 apply plugin: 'jacoco'
 
 group = 'io'
-version = '1.0.0'
+version = '1.0.1'
 sourceCompatibility = '11'
 def springFoxVer = '3.0.0'
 def log4jVer = '2.13.3'
