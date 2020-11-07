@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Optional;
 
 @Component
 @Profile("live")
@@ -29,8 +28,8 @@ public class InitDataLive implements InitData {
     void check1stRecord() throws Exception {
         SecurityUtility.createSecurityContext("admin", "admin_password", "ROLE_SERVICE");
         personRepo.save(createRecord());
-        Optional<Person> optionalPerson = personRepo.findAllByFullNameContainingIgnoreCase("ea").stream().findFirst();
-        optionalPerson.orElseThrow(Exception::new); //should not happen at all. throw exception.
+        Person person = personRepo.findAllByFullNameContainingIgnoreCase("ea").stream().findFirst()
+                .orElseThrow(Exception::new); //should not happen at all. throw exception.
         SecurityContextHolder.clearContext();
     }
 
