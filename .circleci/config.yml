@@ -112,8 +112,6 @@ workflows:
     jobs:
       - build:
           filters:
-            context:
-              - Spring-Swagger
             branches:
               only:
                 - dev
