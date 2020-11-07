@@ -2,14 +2,19 @@ plugins {
     id 'org.springframework.boot' version '2.4.0-RC1'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
+    id "org.sonarqube" version "3.0"
 }
 
+apply plugin: 'jacoco'
+
 group = 'io'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = '11'
 def springFoxVer = '3.0.0'
 def log4jVer = '2.13.3'
 //def springDataMock = '2.1.1'
+
+
 
 configurations {
     compileOnly {
@@ -21,6 +26,7 @@ repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
 }
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -48,6 +54,41 @@ dependencies {
 
 }
 
+
+task codeCoverageReport(type: JacocoReport) {
+    dependsOn = subprojects.test
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets io.swagger
+        test
+    }
+
+    reports {
+        xml.enabled true
+//        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled true
+        csv.enabled true
+    }
+}
+
+codeCoverageReport.dependsOn {
+    test
+}
+
 test {
     useJUnitPlatform()
+    finalizedBy codeCoverageReport
+}
+
+project.tasks["sonarqube"].dependsOn "codeCoverageReport"
+
+sonarqube {
+    properties {
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.projectName", "Spring-Swagger"
+        property "sonar.projectKey", "sean-huni_spring-swagger"
+        property "sonar.organization", "sean-huni-github"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
 }
