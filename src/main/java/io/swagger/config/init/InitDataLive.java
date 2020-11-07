@@ -28,7 +28,7 @@ public class InitDataLive implements InitData {
     void check1stRecord() throws Exception {
         SecurityUtility.createSecurityContext("admin", "admin_password", "ROLE_SERVICE");
         personRepo.save(createRecord());
-        Person person = personRepo.findAllByFullNameContainingIgnoreCase("ea").stream().findFirst()
+        personRepo.findAllByFullNameContainingIgnoreCase("ea").stream().findFirst()
                 .orElseThrow(Exception::new); //should not happen at all. throw exception.
         SecurityContextHolder.clearContext();
     }
