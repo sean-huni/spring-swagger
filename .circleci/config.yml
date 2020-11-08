@@ -87,6 +87,10 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: "echo an env var that is part of our context"
+          command: |
+            echo $SONAR_LOGIN
 
       # Download and cache dependencies
       - restore_cache:
@@ -105,10 +109,6 @@ jobs:
 
       # Code Quality Metrics (Sonarqube) >> Code Quality Metrics (Sonarqube)
       - run: sh gradlew sonarqube
-          -Dsonar.projectKey=sean-huni_spring-swagger
-          -Dsonar.organization=sean-huni-github
-          -Dsonar.host.url=https://sonarcloud.io
-          -Dsonar.login=162248aeafe59568304caa3c2e4276a7418e0525
 
 workflows:
   version: 2
@@ -118,10 +118,12 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - dev
+
       - test:
           requires:
             - build
       - code_quality:
+          context: Spring-Swagger
           requires:
             - test
