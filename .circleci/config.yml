@@ -95,6 +95,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run: sh echo $SONAR_LOGIN
       # run tests!
       - run: sh gradlew --refresh-dependencies dependencies test
 
