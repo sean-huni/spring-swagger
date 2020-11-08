@@ -3,6 +3,7 @@ package io.swagger.config.init;
 import io.swagger.SecurityUtility;
 import io.swagger.commons.Gender;
 import io.swagger.config.InitData;
+import io.swagger.exception.SystemInitException;
 import io.swagger.persistence.entity.Person;
 import io.swagger.persistence.repo.PersonRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,16 @@ public class InitDataLive implements InitData {
     }
 
     @PostConstruct
-    void check1stRecord() throws Exception {
+    void check1stRecord() throws SystemInitException {
         String s = "Service record was not found in Database";
         SecurityUtility.createSecurityContext("admin", "admin_password", "ROLE_SERVICE");
         personRepo.save(createRecord());
         Person p = personRepo.findAllByFullNameContainingIgnoreCase("ea").stream().findFirst()
-                .orElseThrow(() -> new Exception(s)); //should not happen at all. throw exception.
+                .orElseThrow(() -> new SystemInitException(s)); //should not happen at all. throw exception.
         SecurityContextHolder.clearContext();
 
         if (Objects.isNull(p)) {
-            throw new Exception(s);
+            throw new SystemInitException("s");
         }
     }
 
