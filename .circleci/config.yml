@@ -74,7 +74,6 @@ jobs:
       - run: sh gradlew test --refresh-dependencies
 
   code_quality:
-    context: Spring-Swagger
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
@@ -88,6 +87,10 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: "echo an env var that is part of our context"
+          command: |
+            echo $SONAR_LOGIN
 
       # Download and cache dependencies
       - restore_cache:
@@ -117,6 +120,7 @@ workflows:
             branches:
               only:
                 - dev
+
       - test:
           requires:
             - build
