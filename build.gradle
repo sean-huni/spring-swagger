@@ -86,7 +86,7 @@ sonarqube {
         property "sonar.projectKey", "sean-huni_spring-swagger"
         property "sonar.organization", "sean-huni-github"
         property "sonar.host.url", "https://sonarcloud.io"
-//        property "sonar.login", project.property('sonar.login')
+//        property "sonar.login", project.property('sonar.login') // Gradle Property.
         property "sonar.login", System.getenv('SONAR_LOGIN')
     }
 }
