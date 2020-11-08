@@ -74,6 +74,7 @@ jobs:
       - run: sh gradlew test --refresh-dependencies
 
   code_quality:
+    context: Spring-Swagger
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
@@ -95,7 +96,6 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: sh echo $SONAR_LOGIN
       # run tests!
       - run: sh gradlew --refresh-dependencies dependencies test
 
