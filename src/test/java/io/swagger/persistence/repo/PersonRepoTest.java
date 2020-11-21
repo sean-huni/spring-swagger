@@ -19,9 +19,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.io.IOException;
 import java.util.List;
 
+import static io.swagger.ext.util.TestUtility.fromStreamToString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static util.TestUtility.fromStreamToString;
 
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -33,6 +33,10 @@ public class Error {
     @JsonProperty("status")
     private String status;
 
+    @ApiModelProperty(value = "Erroneous Field")
+    @JsonProperty("field")
+    private String field;
+
     @ApiModelProperty(value = "URI of documentation describing the error.")
     @JsonProperty("referenceError")
     private String referenceError;
@@ -57,20 +61,14 @@ public class Error {
         return this;
     }
 
-    public Error referenceError(String referenceError) {
-        this.referenceError = referenceError;
+    public Error field(String field) {
+        this.field = field;
         return this;
     }
 
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+    public Error referenceError(String referenceError) {
+        this.referenceError = referenceError;
+        return this;
     }
 }
 

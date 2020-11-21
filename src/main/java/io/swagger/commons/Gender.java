@@ -1,13 +1,16 @@
 package io.swagger.commons;
 
 public enum Gender {
-    Male("M"),
-    Female("F");
+    Male('M'),
+    Female('F');
 
-    private String gender;
+    private final Character gender;
 
-    Gender(String gender) {
+    Gender(Character gender) {
         this.gender = gender;
     }
 
+    public Character getGender() {
+        return gender;
+    }
 }

@@ -18,23 +18,29 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String adminUsername = "admin";
-    private static final String adminPassword = "admin_password";
-    private static final String serviceUsername = "service";
-    private static final String servicePassword = "service_password";
+    private final IVaultConfig iVaultConfig;
+
+    public SecurityConfig(IVaultConfig iVaultConfig) {
+        this.iVaultConfig = iVaultConfig;
+    }
 
     @Bean
     InMemoryUserDetailsManager inMemoryUserDetailsManager() {
 
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        UserDetails adminUser = User.withUsername(adminUsername).password(encoder.encode(adminPassword)).roles("SERVICE", "ADMIN").build();
-        UserDetails serviceUser = User.withUsername(serviceUsername).password(encoder.encode(servicePassword)).roles("SERVICE").build();
+        UserDetails adminUser = User.withUsername(iVaultConfig.getAdminUsername()).password(encoder.encode(iVaultConfig.getAdminPassword())).roles("SERVICE", "ADMIN").build();
+        UserDetails serviceUser = User.withUsername(iVaultConfig.getServiceUsername()).password(encoder.encode(iVaultConfig.getServicePassword())).roles("SERVICE").build();
 
         // remember the password that is printed out and use in the next step
-        log.info("Username: {}, Password: {}", adminUsername, adminPassword);
-        log.info("Username: {}, Password: {}", serviceUsername, servicePassword);
+        log.warn("Vault Admin-User Secrets");
+        log.info("Username: {}, Password: {}", iVaultConfig.getAdminUsername(), iVaultConfig.getAdminPassword());
+        log.warn("Vault Service-User Secrets");
+        log.info("Username: {}, Password: {}", iVaultConfig.getServiceUsername(), iVaultConfig.getServicePassword());
+        log.warn("Vault Database-User Secrets");
+        log.info("Username: {}, Password: {}", iVaultConfig.getDatabaseUsername(), iVaultConfig.getDatabasePassword());
 
         return new InMemoryUserDetailsManager(adminUser, serviceUser);
     }
@@ -59,12 +65,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.httpBasic().and()
-                .authorizeRequests()//
-                .antMatchers(HttpMethod.POST, "/people").hasRole("ADMIN")//
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/people").hasRole("SERVICE")//
+                .antMatchers(HttpMethod.POST, "/people").hasRole("SERVICE")//
                 .antMatchers(HttpMethod.PUT, "/people/**").hasRole("SERVICE")//
                 .antMatchers(HttpMethod.PATCH, "/people/**").hasRole("SERVICE")//
-                .antMatchers(HttpMethod.DELETE, "/people/**").hasRole("ADMIN").and()
+                .antMatchers(HttpMethod.DELETE, "/people/**").hasRole("ADMIN")
+                .and()
                 .csrf().disable()
-                .antMatcher("**/h2-console/**").authorizeRequests().anyRequest().permitAll();
+                .antMatcher("**/h2-console/**").authorizeRequests().anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .and()
+                .logout().permitAll();
     }
 }
