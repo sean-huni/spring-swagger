@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: party-identity
+  profiles:
+    active: live
+  cloud:
+    vault:
+      token: ${VAULT_TOKEN}
+      kv:
+        enabled: true
+      uri: ${VAULT_ADDR}
+      authentication: TOKEN

@@ -15,7 +15,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @Component
-@Profile("test")
+@Profile("dev")
 public class InitDataTest implements InitData {
     private PersonRepo personRepo;
 

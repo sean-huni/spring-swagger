@@ -70,6 +70,7 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      - run: sh salt start
       # run tests!
       - run: sh gradlew test --refresh-dependencies
 
@@ -109,6 +110,7 @@ jobs:
 
       # Code Quality Metrics (Sonarqube) >> Code Quality Metrics (Sonarqube)
       - run: sh gradlew sonarqube
+      - run: sh salt stop
 
 workflows:
   version: 2

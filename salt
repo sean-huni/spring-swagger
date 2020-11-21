@@ -1,0 +1,69 @@
+#!/usr/bin/env sh
+
+spawnVaultContainer() {
+  docker pull vault
+  echo "Pulled latest version of Vault..."
+  docker run --cap-add=IPC_LOCK -e 'VAULT_ADDR=http://127.0.0.1:8200' -e 'VAULT_DEV_ROOT_TOKEN_ID=00000000-0000-0000-0000-000000000000' -p 8200:8200 -v /tmp/vault:/vault/logs -d --name dev-vault vault
+  echo "Vault Container Spawned..."
+}
+
+createSecrets() {
+  docker exec -e 'VAULT_TOKEN=00000000-0000-0000-0000-000000000000' -e 'VAULT_ADDR=http://127.0.0.1:8200' dev-vault sh -c "vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB"
+  echo "Vault Container Dev-Secrets all set..."
+  docker exec -e 'VAULT_TOKEN=00000000-0000-0000-0000-000000000000' -e 'VAULT_ADDR=http://127.0.0.1:8200' dev-vault sh -c "vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB"
+  echo "Vault Container Live-Secrets all set..."
+}
+
+stopRem() {
+  docker stop dev-vault && docker rm dev-vault
+  echo "Vault Container Stopped & Removed..."
+}
+
+spawnAndCreate() {
+  spawnVaultContainer
+  sleep 3 #Sleep for 3 seconds & wait for the container to complete the the init-process.
+  createSecrets
+  exportEnvVars
+}
+
+exportEnvVars() {
+  echo "Exporting Environment Variables..."
+  export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
+  export VAULT_ADDR=http://127.0.0.1:8200
+  echo "Environment Variables Exported..."
+}
+
+unsetEnvVars() {
+  unset VAULT_TOKEN
+  unset VAULT_ADDR
+}
+
+helpFunction() {
+  printf "\n"
+  echo "Usage: salt {arg}"
+  printf "\t {arg} start - to Start/Restart the vault docker container\n"
+  printf "\t {arg} stop  - to Stop the vault docker container & release resources"
+  #   exit 1 # Exit script after printing help
+}
+
+state=$1
+if [ ! -z "$(docker container ps | grep dev-vault | awk '{print $NF}')" ] && [ "$state" = 'start' ]; then
+  echo "Vault Container Found"
+  stopRem
+  spawnAndCreate
+  exportEnvVars
+elif [ -z "$(docker container ps | grep dev-vault | awk '{print $NF}')" ] && [ "$state" = 'start' ]; then
+  echo "Vault Container NOT Found..."
+  echo "Spawning Vault Container Anyways..."
+  spawnAndCreate
+  exportEnvVars
+elif [ -z "$(docker container ps | grep dev-vault | awk '{print $NF}')" ] && [ "$state" = 'stop' ]; then
+  echo "Vault Container already Removed..."
+elif [ "$state" = 'stop' ]; then
+  echo "Removing Vault Container..."
+  stopRem
+  unsetEnvVars
+else
+  echo "No Argument Passed!!!"
+  helpFunction
+fi

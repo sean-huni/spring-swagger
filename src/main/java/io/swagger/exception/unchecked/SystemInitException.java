@@ -1,6 +1,6 @@
-package io.swagger.exception;
+package io.swagger.exception.unchecked;
 
-public class SystemInitException extends Exception {
+public class SystemInitException extends RuntimeException {
 
     /**
      * Constructs a new System initialisation Exception with the specified detail message.

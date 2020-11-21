@@ -1,4 +1,4 @@
-package util;
+package io.swagger.ext.util;
 
 import java.io.IOException;
 import java.io.InputStream;
