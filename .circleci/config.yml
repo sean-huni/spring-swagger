@@ -86,7 +86,7 @@ jobs:
       - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk version"
       - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk i java 11.0.9-zulu"
       - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk u java 11.0.9-zulu"
-      - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sh gradlew dependencies --refresh-dependencies
+      - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sh gradlew dependencies --refresh-dependencies"
       #          name: Sleep (Wait for the Vault Instance to become available)
       #        name: Spawn Vault Docker Instance
       - run: vault server --dev --dev-root-token-id=00000000-0000-0000-0000-000000000000 & sleep 5
