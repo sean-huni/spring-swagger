@@ -15,20 +15,14 @@ jobs:
       VAULT_ADDR: $VAULT_ADDR
 
     steps:
-      - run:
-        name: Spawn Vault Docker Instance
-        command: |
-          docker pull vault
-          docker run --cap-add=IPC_LOCK -e 'VAULT_ADDR=${VAULT_ADDR}' -e 'VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}' -p 8200:8200 -v /tmp/vault:/vault/logs -d --name dev-vault vault
-      - run:
-          name: Sleep (Wait for the Vault Instance to become available)
-          command: |
-            sleep 3
-      - run:
-          name: Inject Secrets into the Vault
-          command: |
-            docker exec -e 'VAULT_TOKEN=${VAULT_TOKEN}' -e 'VAULT_ADDR=${VAULT_ADDR}' dev-vault sh -c "vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB"
-            docker exec -e 'VAULT_TOKEN=${VAULT_TOKEN}' -e 'VAULT_ADDR=${VAULT_ADDR}' dev-vault sh -c "vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB"
+      #        name: Spawn Vault Docker Instance
+      - run: docker pull vault && docker run --cap-add=IPC_LOCK -e 'VAULT_ADDR=${VAULT_ADDR}' -e 'VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}' -p 8200:8200 -v /tmp/vault:/vault/logs -d --name dev-vault vault
+      #          name: Sleep (Wait for the Vault Instance to become available)
+      - run: sleep 3
+
+      #          name: Inject Secrets into the Vault
+      - run: docker exec -e 'VAULT_TOKEN=${VAULT_TOKEN}' -e 'VAULT_ADDR=${VAULT_ADDR}' dev-vault sh -c "vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB"
+      - run: docker exec -e 'VAULT_TOKEN=${VAULT_TOKEN}' -e 'VAULT_ADDR=${VAULT_ADDR}' dev-vault sh -c "vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB"
   #    - run:
   #        name: ENV-Variables into the Vault
   #        command: |
