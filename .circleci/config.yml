@@ -18,7 +18,9 @@ jobs:
 
     steps:
       #        name: Spawn Vault Docker Instance
-      - run: docker pull vault && docker run --cap-add=IPC_LOCK -e 'VAULT_ADDR=${VAULT_ADDR}' -e 'VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}' -p 8200:8200 -v /tmp/vault:/vault/logs -d --name dev-vault vault
+      - run: |
+          docker pull vault
+          docker run --cap-add=IPC_LOCK -e 'VAULT_ADDR=${VAULT_ADDR}' -e 'VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}' -p 8200:8200 -v /tmp/vault:/vault/logs -d --name dev-vault vault
       #          name: Sleep (Wait for the Vault Instance to become available)
       - run: sleep 3
 
