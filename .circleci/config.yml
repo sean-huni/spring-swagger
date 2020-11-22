@@ -62,7 +62,7 @@ jobs:
   test:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:11-jdk
+      - image: vault:latest
 
     working_directory: ~/repo
 
@@ -82,6 +82,13 @@ jobs:
             - v1-dependencies-
 
       - run: sh gradlew dependencies --refresh-dependencies
+      #          name: Sleep (Wait for the Vault Instance to become available)
+      #        name: Spawn Vault Docker Instance
+      - run: vault server --dev --dev-root-token-id=00000000-0000-0000-0000-000000000000 & sleep 5
+
+      #          name: Inject Secrets into the Vault
+      - run: vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB
+      - run: vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB
 
       - save_cache:
           paths:
@@ -152,6 +159,9 @@ workflows:
               only:
                 - master
       - test:
+          context:
+            - Spring-Swagger
+            - Security
           requires:
             - vault
             - build
