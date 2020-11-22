@@ -84,8 +84,8 @@ jobs:
       - run: apk update && apk add bash curl git zip unzip
       - run: curl -s "https://get.sdkman.io" | bash
       - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk version"
-      - run: sdk i java 11.0.9-zulu
-      - run: sdk u java 11.0.9-zulu
+      - run: bash -c "sdk i java 11.0.9-zulu"
+      - run: bash -c "sdk u java 11.0.9-zulu"
       - run: sh gradlew dependencies --refresh-dependencies
       #          name: Sleep (Wait for the Vault Instance to become available)
       #        name: Spawn Vault Docker Instance
