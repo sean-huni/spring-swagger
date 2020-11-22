@@ -81,7 +81,7 @@ jobs:
 
       # Installing basic packages
       - run: apk update && apk add zip unzip curl
-      - run: curl -s "https://get.sdkman.io" | bash
+      - run: curl -s "https://get.sdkman.io" | sh
       - run: source "$HOME/.sdkman/bin/sdkman-init.sh"
       - run: sdk version
       - run: sdk i java 11.0.9-zulu
