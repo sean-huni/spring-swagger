@@ -80,7 +80,7 @@ jobs:
             - v1-dependencies-
 
       # Installing basic packages
-      - run: apk update && apk add bash curl git zip unzip vault
+      - run: apt update -y && apt install -y bash curl git zip unzip vault
       - run: gradle dependencies --refresh-dependencies
       #          name: Sleep (Wait for the Vault Instance to become available)
       #        name: Spawn Vault Docker Instance
