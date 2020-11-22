@@ -79,10 +79,11 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run: mkdir /root/repo/test-results
       # Installing basic packages
       - run: apk update && apk add zip unzip curl
       - run: curl -s "https://get.sdkman.io" | sh
-      - run: source "$HOME/.sdkman/bin/sdkman-init.sh"
+      - run: source "/root/.sdkman/bin/sdkman-init.sh"
       - run: sdk version
       - run: sdk i java 11.0.9-zulu
       - run: sdk u java 11.0.9-zulu
