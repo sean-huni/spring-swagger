@@ -10,8 +10,8 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-      VAULT_TOKEN: ${VAULT_TOKEN}
-      VAULT_ADDR: $VAULT_ADDR
+      VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
+      VAULT_ADDR: http://127.0.0.1:8200
 
     steps:
       #        name: Spawn Vault Docker Instance
