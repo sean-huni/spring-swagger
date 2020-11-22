@@ -33,17 +33,14 @@ jobs:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
     working_directory: ~/repo
 
     environment:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
+      VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
+      VAULT_ADDR: http://127.0.0.1:8200
 
     steps:
       - checkout
@@ -61,9 +58,6 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # Spin up the docker env
-      - run: sh salt start
 
       # run Build!
       - run: sh gradlew build
