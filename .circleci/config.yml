@@ -39,8 +39,6 @@ jobs:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-    #      VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
-    #      VAULT_ADDR: http://127.0.0.1:8200
     steps:
       - checkout
 
@@ -58,17 +56,8 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      - run: echo ${VAULT_TOKEN}
-      - run: echo ${VAULT_ADDR}
-      - run: mkdir test-results
-
-      # run Build!
-      # ▶sh gradlew --help
-      # -P, --project-prop                 Set project property for the build script (e.g. -Pmyprop=myvalue).
-      # -D, --system-prop                  Set system property of the JVM (e.g. -Dmyprop=myvalue).
-      - run: sh gradlew build -DVAULT_TOKEN=00000000-0000-0000-0000-000000000000 -DVAULT_ADDR=http://127.0.0.1:8200 --debug
-      - store_test_results:
-          path: test-results
+      # run Assemble!
+      - run: sh gradlew assemble
 
   test:
     docker:
@@ -81,10 +70,10 @@ jobs:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-
+      VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
+      VAULT_ADDR: http://127.0.0.1:8200
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -99,9 +88,11 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      - run: sh salt start
       # run tests!
-      - run: sh gradlew test --refresh-dependencies
+      # sh gradlew --help
+      # -P, --project-prop                 Set project property for the build script (e.g. -Pmyprop=myvalue).
+      # -D, --system-prop                  Set system property of the JVM (e.g. -Dmyprop=myvalue).
+      - run: sh gradlew test --debug --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}
       - store_test_results:
           path: test-results
 
@@ -141,7 +132,6 @@ jobs:
 
       # Code Quality Metrics (Sonarqube) >> Code Quality Metrics (Sonarqube)
       - run: sh gradlew sonarqube
-      - run: sh salt stop
 
 workflows:
   version: 2
