@@ -2,14 +2,11 @@
 #
 # Check https://circleci.com/docs/2.1/language-java/ for more details
 #
-orbs:
-  docker: circleci/docker@1.5.0
 version: 2.1
 jobs:
   vault:
     docker:
-      - image: circleci/openjdk:11-jdk
-
+      - image: vault:latest
     environment:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
@@ -18,9 +15,7 @@ jobs:
 
     steps:
       #        name: Spawn Vault Docker Instance
-      - run: |
-          docker pull vault
-          docker run --cap-add=IPC_LOCK -e 'VAULT_ADDR=${VAULT_ADDR}' -e 'VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}' -p 8200:8200 -v /tmp/vault:/vault/logs -d --name dev-vault vault
+      - run: docker run --cap-add=IPC_LOCK -e 'VAULT_ADDR=${VAULT_ADDR}' -e 'VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}' -p 8200:8200 -v /tmp/vault:/vault/logs -d --name dev-vault vault
       #          name: Sleep (Wait for the Vault Instance to become available)
       - run: sleep 3
 
