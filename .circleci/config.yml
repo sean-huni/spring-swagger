@@ -149,7 +149,8 @@ workflows:
             - Spring-Swagger
             - Security
       - build:
-          requires: vault
+          requires:
+            - vault
           context:
             - Spring-Swagger
             - Security
@@ -157,7 +158,6 @@ workflows:
             branches:
               only:
                 - master
-
       - test:
           requires:
             - vault
