@@ -66,7 +66,7 @@ jobs:
       # ▶sh gradlew --help
       # -P, --project-prop                 Set project property for the build script (e.g. -Pmyprop=myvalue).
       # -D, --system-prop                  Set system property of the JVM (e.g. -Dmyprop=myvalue).
-      - run: sh gradlew build -PVAULT_TOKEN=${VAULT_TOKEN} -PVAULT_ADDR=${VAULT_ADDR} --debug
+      - run: sh gradlew build -PVAULT_TOKEN=00000000-0000-0000-0000-000000000000 -PVAULT_ADDR=http://127.0.0.1:8200 --debug
       - store_test_results:
           path: test-results
 
