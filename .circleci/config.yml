@@ -38,6 +38,9 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      # Spin up the docker env
+      - run: sh salt start
+
       # run Build!
       - run: sh gradlew build
 
@@ -117,6 +120,7 @@ workflows:
   main:
     jobs:
       - build:
+          context: Spring-Swagger
           filters:
             branches:
               only:

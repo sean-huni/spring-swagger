@@ -81,13 +81,14 @@ Pull the Vault docker image
   `-d` to detach the console.
   
   shortcut to export dev  & live secrets
+  
  ▶ `docker exec -e 'VAULT_TOKEN=00000000-0000-0000-0000-000000000000' -e 'VAULT_ADDR=http://127.0.0.1:8200' dev-vault sh -c "vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB" `
  
  ▶ `docker exec -e 'VAULT_TOKEN=00000000-0000-0000-0000-000000000000' -e 'VAULT_ADDR=http://127.0.0.1:8200' dev-vault sh -c "vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB" `
   
   Execute into the container
   
- ▶ `docker exec -it vault sh`
+ ▶ `docker exec -e 'VAULT_TOKEN=00000000-0000-0000-0000-000000000000' -e 'VAULT_ADDR=http://127.0.0.1:8200' -it vault sh`
  
  Export the env-variables (within the vault docker-container).
  

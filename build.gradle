@@ -13,7 +13,6 @@ sourceCompatibility = '11'
 def springFoxVer = '3.0.0'
 def log4jVer = '2.13.3'
 def springCloudVersion = 'Hoxton.SR9'
-//def testContainersVersion = '1.15.0'
 
 
 configurations {
@@ -55,13 +54,11 @@ dependencies {
 
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testImplementation 'org.testcontainers:vault'
 
 }
 
 dependencyManagement {
     imports {
-//        mavenBom "org.testcontainers:testcontainers-bom:${testContainersVersion}"
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
