@@ -41,7 +41,6 @@ jobs:
       TERM: dumb
     #      VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
     #      VAULT_ADDR: http://127.0.0.1:8200
-
     steps:
       - checkout
 
@@ -64,6 +63,8 @@ jobs:
 
       # run Build!
       - run: sh gradlew build
+      - store_test_results:
+          path: test-results
 
   test:
     docker:
@@ -97,6 +98,8 @@ jobs:
       - run: sh salt start
       # run tests!
       - run: sh gradlew test --refresh-dependencies
+      - store_test_results:
+          path: test-results
 
   code_quality:
     docker:
