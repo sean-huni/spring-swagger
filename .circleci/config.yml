@@ -4,6 +4,34 @@
 #
 version: 2.1
 jobs:
+  vault:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    environement:
+      JVM_OPTS: -Xmx3200m
+      VAULT_TOKEN: ${VAULT_TOKEN}
+      VAULT_ADDR: $VAULT_ADDR
+      - run:
+        name: Vault Docker Instance
+        command: |
+          docker pull vault
+          docker run --cap-add=IPC_LOCK -e 'VAULT_ADDR=${VAULT_ADDR}' -e 'VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}' -p 8200:8200 -v /tmp/vault:/vault/logs -d --name dev-vault vault
+      - run:
+          name: Sleep (Wait for the Vault Instance to become available)
+          command: |
+            sleep 3
+      - run:
+          name: Inject Secrets into the Vault
+          command: |
+            docker exec -e 'VAULT_TOKEN=${VAULT_TOKEN}' -e 'VAULT_ADDR=${VAULT_ADDR}' dev-vault sh -c "vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB"
+            docker exec -e 'VAULT_TOKEN=${VAULT_TOKEN}' -e 'VAULT_ADDR=${VAULT_ADDR}' dev-vault sh -c "vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB"
+  #    - run:
+  #        name: ENV-Variables into the Vault
+  #        command: |
+  #          export VAULT_TOKEN=${VAULT_TOKEN}
+  #          export VAULT_ADDR=${VAULT_ADDR}
+
+
   build:
     docker:
       # specify the version you desire here
@@ -119,8 +147,15 @@ workflows:
   version: 2
   main:
     jobs:
+      - vault:
+          context:
+            - Spring-Swagger
+            - Security
       - build:
-          context: Spring-Swagger
+          requires: vault
+          context:
+            - Spring-Swagger
+            - Security
           filters:
             branches:
               only:
@@ -128,8 +163,12 @@ workflows:
 
       - test:
           requires:
+            - vault
             - build
       - code_quality:
-          context: Spring-Swagger
+          context:
+            - Spring-Swagger
+            - Security
           requires:
+            - vault
             - test
