@@ -79,7 +79,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mkdir /root/repo/test-results
+      - run: sudo mkdir /root/repo/test-results
       # Installing basic packages
       - run: apk update && apk add bash curl git zip unzip vault
       - run: gradle dependencies --refresh-dependencies
