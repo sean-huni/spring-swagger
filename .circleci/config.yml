@@ -39,8 +39,8 @@ jobs:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-      VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
-      VAULT_ADDR: http://127.0.0.1:8200
+    #      VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
+    #      VAULT_ADDR: http://127.0.0.1:8200
 
     steps:
       - checkout
@@ -58,6 +58,9 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      - run: echo ${VAULT_TOKEN}
+      - run: echo ${VAULT_ADDR}
 
       # run Build!
       - run: sh gradlew build
