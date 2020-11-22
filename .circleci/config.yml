@@ -60,12 +60,13 @@ jobs:
 
       - run: echo ${VAULT_TOKEN}
       - run: echo ${VAULT_ADDR}
+      - run: mkdir test-results
 
       # run Build!
       # ▶sh gradlew --help
       # -P, --project-prop                 Set project property for the build script (e.g. -Pmyprop=myvalue).
       # -D, --system-prop                  Set system property of the JVM (e.g. -Dmyprop=myvalue).
-      - run: sh gradlew build -PVAULT_TOKEN=${VAULT_TOKEN} -PVAULT_ADDR=${VAULT_ADDR}
+      - run: sh gradlew build -PVAULT_TOKEN=${VAULT_TOKEN} -PVAULT_ADDR=${VAULT_ADDR} --debug
       - store_test_results:
           path: test-results
 
