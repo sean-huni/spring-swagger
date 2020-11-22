@@ -81,10 +81,9 @@ jobs:
 
       - run: mkdir /root/repo/test-results
       # Installing basic packages
-      - run: apk update && apk add zip unzip curl
-      - run: curl -s "https://get.sdkman.io" | sh
-      - run: source "/root/.sdkman/bin/sdkman-init.sh"
-      - run: sdk version
+      - run: apk update && apk add bash curl git zip unzip
+      - run: curl -s "https://get.sdkman.io" | bash
+      - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk version"
       - run: sdk i java 11.0.9-zulu
       - run: sdk u java 11.0.9-zulu
       - run: sh gradlew dependencies --refresh-dependencies
