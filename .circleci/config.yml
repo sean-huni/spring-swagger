@@ -80,7 +80,7 @@ jobs:
             - v1-dependencies-
 
       # Installing basic packages
-      - run: apk update && apk install -y zip unzip curl && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
+      - run: apk update && apk add zip unzip curl
       - run: curl -s "https://get.sdkman.io" | bash
       - run: source "$HOME/.sdkman/bin/sdkman-init.sh"
       - run: sdk version
