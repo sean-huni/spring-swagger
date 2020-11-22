@@ -84,9 +84,9 @@ jobs:
       - run: apk update && apk add bash curl git zip unzip
       - run: curl -s "https://get.sdkman.io" | bash
       - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk version"
-      - run: bash -c "sdk i java 11.0.9-zulu"
-      - run: bash -c "sdk u java 11.0.9-zulu"
-      - run: bash -c "sh gradlew dependencies --refresh-dependencies
+      - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk i java 11.0.9-zulu"
+      - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk u java 11.0.9-zulu"
+      - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sh gradlew dependencies --refresh-dependencies
       #          name: Sleep (Wait for the Vault Instance to become available)
       #        name: Spawn Vault Docker Instance
       - run: vault server --dev --dev-root-token-id=00000000-0000-0000-0000-000000000000 & sleep 5
@@ -104,7 +104,7 @@ jobs:
       # sh gradlew --help
       # -P, --project-prop                 Set project property for the build script (e.g. -Pmyprop=myvalue).
       # -D, --system-prop                  Set system property of the JVM (e.g. -Dmyprop=myvalue).
-      - run: bash -c "gradlew test --debug --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}"
+      - run: bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && gradlew test --debug --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}"
       - store_test_results:
           path: test-results
 
