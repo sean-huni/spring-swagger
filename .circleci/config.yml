@@ -4,7 +4,7 @@
 #
 version: 2.1
 executors:
-  exe-vault:
+  exevault:
     docker:
       - image: vault:latest
     environment:
@@ -24,7 +24,7 @@ executors:
 
 jobs:
   build:
-    executor: exe-vault
+    executor: exevault
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
@@ -57,7 +57,7 @@ jobs:
       - run: sh gradlew assemble
 
   test:
-    executor: exe-vault
+    executor: exevault
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
