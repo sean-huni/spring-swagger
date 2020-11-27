@@ -3,33 +3,29 @@
 # Check https://circleci.com/docs/2.1/language-java/ for more details
 #
 version: 2.1
-jobs:
+executors:
   vault:
-    docker:
-      - image: vault:latest
-    environment:
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-      VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
-      VAULT_ADDR: http://127.0.0.1:8200
-    steps:
-      - run:
-          name: Spawn Vault Docker Instance & Sleep (Wait for the Vault Instance to become available)
-          command: |
-            vault server --dev --dev-root-token-id=00000000-0000-0000-0000-000000000000 & sleep 5
+    exe-vault:
+      docker:
+        - image: vault:latest
+      environment:
+        VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
+        VAULT_ADDR: http://127.0.0.1:8200
+      steps:
+        - run:
+            name: Spawn Vault Docker Instance & Sleep (Wait for the Vault Instance to become available)
+            command: |
+              vault server --dev --dev-root-token-id=00000000-0000-0000-0000-000000000000 & sleep 5
 
-      - run:
-          name: Inject Secrets into the Vault
-          command: |
-            vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB
-            vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB
-  #    - run:
-  #        name: ENV-Variables into the Vault
-  #        command: |
-  #          export VAULT_TOKEN=${VAULT_TOKEN}
-  #          export VAULT_ADDR=${VAULT_ADDR}
+        - run:
+            name: Inject Secrets into the Vault
+            command: |
+              vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB
+              vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB
 
+jobs:
   build:
+    executor: exe-vault
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
@@ -62,6 +58,7 @@ jobs:
       - run: sh gradlew assemble
 
   test:
+    executor: exe-vault
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
@@ -77,7 +74,11 @@ jobs:
       VAULT_ADDR: http://127.0.0.1:8200
     steps:
       - checkout
-      - run: mkdir ~/repo/test-results
+      - run:
+          name: Create Test-Results Directory
+          command: |
+            mkdir ~/repo/test-results
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -85,15 +86,20 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      # Refresh Dependencies
-      - run: sh gradlew dependencies --refresh-dependencies
-      #          name: Sleep (Wait for the Vault Instance to become available)
-      #        name: Spawn Vault Docker Instance
-      - run: vault server --dev --dev-root-token-id=00000000-0000-0000-0000-000000000000 & sleep 5
+      #      - run:
+      #          name: Refresh Dependencies
+      #          command: |
+      #            sh gradlew dependencies --refresh-dependencies
+      - run:
+          name: launch Vault Server Spawn Vault Docker Instance & Sleep (Wait for the Vault Instance to become available)
+          command: |
+            vault server --dev --dev-root-token-id=00000000-0000-0000-0000-000000000000 & sleep 5
 
-      #          name: Inject Secrets into the Vault
-      - run: vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB
-      - run: vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB
+      - run:
+          name: Inject Secrets into the Vault
+          command: |
+            vault kv put secret/party-identity/dev admin.username=admin-user admin.password=Mut4nt-Squ@ serv.username=service-user serv.password=Imm0Rt4L~P@ss spring.datasource.username=dev-db spring.datasource.password=S3cret\*\*DB
+            vault kv put secret/party-identity/live admin.username=admin-live admin.password=Mut4nt-l1ve-Squ@ serv.username=service-live serv.password=Imm0Rt4L~L1v3~P@ss spring.datasource.username=dev-db spring.datasource.password=l1v3_S3cret\*\*DB
 
       - save_cache:
           paths:
@@ -104,7 +110,11 @@ jobs:
       # sh gradlew --help
       # -P, --project-prop                 Set project property for the build script (e.g. -Pmyprop=myvalue).
       # -D, --system-prop                  Set system property of the JVM (e.g. -Dmyprop=myvalue).
-      - run: sh gradlew test --debug --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}
+      - run:
+          name: Inject Secrets into the Vault
+          command: |
+            sh gradlew test --debug --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}
+
       - store_test_results:
           path: ~/repo/test-results
 
@@ -149,13 +159,7 @@ workflows:
   version: 2
   main:
     jobs:
-      - vault:
-          context:
-            - Spring-Swagger
-            - Security
       - build:
-          requires:
-            - vault
           context:
             - Spring-Swagger
             - Security
@@ -168,12 +172,10 @@ workflows:
             - Spring-Swagger
             - Security
           requires:
-            - vault
             - build
       - code_quality:
           context:
             - Spring-Swagger
             - Security
           requires:
-            - vault
             - test
