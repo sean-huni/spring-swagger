@@ -39,6 +39,7 @@ jobs:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
+
     steps:
       - checkout
 
@@ -63,6 +64,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
+      - image: vault:latest
 
     working_directory: ~/repo
 
@@ -70,6 +72,8 @@ jobs:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
+      VAULT_TOKEN: 00000000-0000-0000-0000-000000000000
+      VAULT_ADDR: http://127.0.0.1:8200
     steps:
       - checkout
       # Download and cache dependencies
@@ -79,9 +83,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      # Installing basic packages
-      - run: apt update -y && apt install -y bash curl git zip unzip vault
-      - run: gradle dependencies --refresh-dependencies
+      # Refresh Dependencies
+      - run: sh gradlew dependencies --refresh-dependencies
       #          name: Sleep (Wait for the Vault Instance to become available)
       #        name: Spawn Vault Docker Instance
       - run: vault server --dev --dev-root-token-id=00000000-0000-0000-0000-000000000000 & sleep 5
@@ -99,7 +102,7 @@ jobs:
       # sh gradlew --help
       # -P, --project-prop                 Set project property for the build script (e.g. -Pmyprop=myvalue).
       # -D, --system-prop                  Set system property of the JVM (e.g. -Dmyprop=myvalue).
-      - run: sh gradle test --debug --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}
+      - run: sh gradlew test --debug --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}
       - store_test_results:
           path: test-results
 
