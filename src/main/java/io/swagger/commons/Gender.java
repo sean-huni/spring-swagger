@@ -4,13 +4,13 @@ public enum Gender {
     MALE('M'),
     FEMALE('F');
 
-    private final Character gender;
+    private final Character category;
 
-    Gender(Character gender) {
-        this.gender = gender;
+    Gender(Character category) {
+        this.category = category;
     }
 
-    public Character getGender() {
-        return gender;
+    public Character getCategory() {
+        return category;
     }
 }

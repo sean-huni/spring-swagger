@@ -18,21 +18,21 @@ class GenderTest {
         Character maleChar = 'M';
         Gender gMale = Gender.MALE;
 
-        assertEquals(femaleChar, gFemale.getGender().charValue());
+        assertEquals(femaleChar, gFemale.getCategory().charValue());
         assertEquals("FEMALE", gFemale.toString());
-        assertEquals(maleChar, gMale.getGender().charValue());
+        assertEquals(maleChar, gMale.getCategory().charValue());
         assertEquals("MALE", gMale.toString());
     }
 
     @Test
     void givenGenderEnum_whenRetrievingValueOfStringFemale_andValueStringOfFemaleGenderEnum() {
-        assertEquals('F', Gender.FEMALE.getGender());
+        assertEquals('F', Gender.FEMALE.getCategory());
         assertEquals("FEMALE", Gender.FEMALE.toString());
     }
 
     @Test
     void givenGenderEnum_whenRetrievingValueOfStringMale_andValueStringOfMaleGenderEnum() {
-        assertEquals('M', Gender.MALE.getGender());
+        assertEquals('M', Gender.MALE.getCategory());
         assertEquals("MALE", Gender.MALE.toString());
     }
 }
