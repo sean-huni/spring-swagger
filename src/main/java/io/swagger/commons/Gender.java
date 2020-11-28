@@ -1,8 +1,8 @@
 package io.swagger.commons;
 
 public enum Gender {
-    Male('M'),
-    Female('F');
+    MALE('M'),
+    FEMALE('F');
 
     private final Character gender;
 

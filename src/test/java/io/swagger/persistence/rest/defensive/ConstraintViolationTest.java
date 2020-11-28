@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import static io.swagger.commons.Constant.ROLE_SERVICE;
 import static io.swagger.ext.util.TestUtility.fromStreamToString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,7 +51,7 @@ public class ConstraintViolationTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Save an Erroneous Person - HTTP.POST")
     void givenMockMvc_whenSavingPerson_thenThrowConstraintViolationException() throws Exception {
         when(personRepo.save(any(Person.class))).thenThrow(new ConstraintViolationException("Testing the Mocked PersonRepo", null));

@@ -14,25 +14,25 @@ class GenderTest {
     @Test
     void givenGenderEnum_whenRetrievingValueOfStringFemale_andValueStringOfMale_thenReturnGender_andStringValues() {
         Character femaleChar = 'F';
-        Gender gFemale = Gender.Female;
+        Gender gFemale = Gender.FEMALE;
         Character maleChar = 'M';
-        Gender gMale = Gender.Male;
+        Gender gMale = Gender.MALE;
 
         assertEquals(femaleChar, gFemale.getGender().charValue());
-        assertEquals("Female", gFemale.toString());
+        assertEquals("FEMALE", gFemale.toString());
         assertEquals(maleChar, gMale.getGender().charValue());
-        assertEquals("Male", gMale.toString());
+        assertEquals("MALE", gMale.toString());
     }
 
     @Test
     void givenGenderEnum_whenRetrievingValueOfStringFemale_andValueStringOfFemaleGenderEnum() {
-        assertEquals('F', Gender.Female.getGender());
-        assertEquals("Female", Gender.Female.toString());
+        assertEquals('F', Gender.FEMALE.getGender());
+        assertEquals("FEMALE", Gender.FEMALE.toString());
     }
 
     @Test
     void givenGenderEnum_whenRetrievingValueOfStringMale_andValueStringOfMaleGenderEnum() {
-        assertEquals('M', Gender.Male.getGender());
-        assertEquals("Male", Gender.Male.toString());
+        assertEquals('M', Gender.MALE.getGender());
+        assertEquals("MALE", Gender.MALE.toString());
     }
 }

@@ -14,6 +14,9 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static io.swagger.commons.Constant.ROLE_ADMIN;
+import static io.swagger.commons.Constant.ROLE_SERVICE;
+
 @Log4j2
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -31,8 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     InMemoryUserDetailsManager inMemoryUserDetailsManager() {
 
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        UserDetails adminUser = User.withUsername(iVaultConfig.getAdminUsername()).password(encoder.encode(iVaultConfig.getAdminPassword())).roles("SERVICE", "ADMIN").build();
-        UserDetails serviceUser = User.withUsername(iVaultConfig.getServiceUsername()).password(encoder.encode(iVaultConfig.getServicePassword())).roles("SERVICE").build();
+        UserDetails adminUser = User.withUsername(iVaultConfig.getAdminUsername()).password(encoder.encode(iVaultConfig.getAdminPassword())).roles(ROLE_SERVICE, ROLE_ADMIN).build();
+        UserDetails serviceUser = User.withUsername(iVaultConfig.getServiceUsername()).password(encoder.encode(iVaultConfig.getServicePassword())).roles(ROLE_SERVICE).build();
 
         // remember the password that is printed out and use in the next step
         log.warn("Vault Admin-User Secrets");
@@ -66,14 +69,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.httpBasic().and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/people").hasRole("SERVICE")//
-                .antMatchers(HttpMethod.POST, "/people").hasRole("SERVICE")//
-                .antMatchers(HttpMethod.PUT, "/people/**").hasRole("SERVICE")//
-                .antMatchers(HttpMethod.PATCH, "/people/**").hasRole("SERVICE")//
-                .antMatchers(HttpMethod.DELETE, "/people/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/people").hasRole(ROLE_SERVICE)//
+                .antMatchers(HttpMethod.POST, "/people").hasRole(ROLE_SERVICE)//
+                .antMatchers(HttpMethod.PUT, "/people/**").hasRole(ROLE_SERVICE)//
+                .antMatchers(HttpMethod.PATCH, "/people/**").hasRole(ROLE_SERVICE)//
+                .antMatchers(HttpMethod.DELETE, "/people/**").hasRole(ROLE_ADMIN)
                 .and()
                 .csrf().disable()
-                .antMatcher("**/h2-console/**").authorizeRequests().anyRequest().authenticated()
+                .antMatcher("**/h2-console/**").authorizeRequests()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()

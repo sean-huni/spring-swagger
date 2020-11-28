@@ -17,5 +17,6 @@ class SpringSwaggerApplicationTestsDev {
     @Test
     @DisplayName("Load Spring Context Dev-Profile Successfully")
     void contextLoads() {
+        assert true;
     }
 }

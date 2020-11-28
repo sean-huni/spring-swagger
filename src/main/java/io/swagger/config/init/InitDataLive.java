@@ -51,7 +51,7 @@ public class InitDataLive implements InitData {
         p.setAristocraticTitle("Elf");
         p.setFullName("Alice");
         p.setFamilyName("Erling");
-        p.setGender(Gender.Female);
+        p.setGender(Gender.FEMALE);
         p.setBirthDate(ZonedDateTime.of(2001, 1, 1, 17, 25, 0, 0, ZoneId.systemDefault()));
         p.setCountryOfBirth("South Africa");
         p.setVersion("1.0.0");
@@ -59,5 +59,6 @@ public class InitDataLive implements InitData {
     }
 
     public void init() {
+        //Used to inject the instance of the Live configuration.
     }
 }

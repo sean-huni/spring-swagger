@@ -14,6 +14,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static io.swagger.commons.Constant.ROLE_SERVICE;
 import static io.swagger.ext.util.TestUtility.fromStreamToString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -57,7 +58,7 @@ public class PersonRepoDefensiveTestsRest {
 
     @Test
     @DisplayName("Create Person with Validations Errors")
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     void givenMockMvc_whenCreatingAPerson_thenThrowException_andReturnClientErrorMessage() throws Exception {
         Resource resource = resourceLoader.getResource("classpath:json/test-case.json");
         String jsonStr = fromStreamToString(resource.getInputStream());
@@ -78,7 +79,7 @@ public class PersonRepoDefensiveTestsRest {
     }
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Update a non-Existing Person - HTTP.PATCH")
     @DirtiesContext
     void givenMockMvc_whenUpdatingAnExistingPerson_thenReturnIsCreated_withRedirectedUrlToNewPersonObject() throws Exception {
@@ -93,7 +94,7 @@ public class PersonRepoDefensiveTestsRest {
     }
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Delete A Non-Existing Person - HTTP.DELETE")
     @DirtiesContext
     void givenMockMvc_whenDeletingPerson_thenSucceed() throws Exception {

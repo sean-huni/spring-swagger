@@ -16,6 +16,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static io.swagger.commons.Constant.ROLE_SERVICE;
 import static io.swagger.ext.util.TestUtility.fromStreamToString;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -39,7 +40,7 @@ public class PersonRepoRestPositiveTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("find-All-By-FullName-Containing-IgnoreCase - HTTP.GET")
     void givenMockMvc_whenInvokingFindAllByFullNameContainingIgnoreCase_thenReturnSuccess_withPersonDatabaseObject() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get(ROOT_URI + "/people/search/findAllByFullNameContainingIgnoreCase?fullName=Se")
@@ -54,7 +55,7 @@ public class PersonRepoRestPositiveTest {
     }
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Save New Person - HTTP.POST")
     @DirtiesContext
     void givenMockMvc_whenSavingNewPerson_thenReturnIsCreated_withRedirectedUrlToNewPersonObject() throws Exception {
@@ -72,11 +73,11 @@ public class PersonRepoRestPositiveTest {
     }
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Update an Existing Person - HTTP.PATCH")
     @DirtiesContext
     void givenMockMvc_whenUpdatingAnExistingPerson_thenReturnIsCreated_withRedirectedUrlToNewPersonObject() throws Exception {
-        String jsonStr = "{\"countryOfBirth\": \"England\", \"familyName\": \"Parkinson\",\"fullName\": \"Queen\",\"gender\": \"Female\"}";
+        String jsonStr = "{\"countryOfBirth\": \"England\", \"familyName\": \"Parkinson\",\"fullName\": \"Queen\",\"gender\": \"FEMALE\"}";
         LOGGER.info("Test-Case: \n{}", jsonStr);
 
         mockMvc.perform(patch(ROOT_URI + "/people/1")
@@ -88,7 +89,7 @@ public class PersonRepoRestPositiveTest {
     }
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Find Existing Person - HTTP.GET")
     void givenMockMvc_whenFetchingPerson_thenReturnExistingPerson_withSuccess() throws Exception {
         mockMvc.perform(get(ROOT_URI + "/people/1")
@@ -101,7 +102,7 @@ public class PersonRepoRestPositiveTest {
     }
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Delete An Existing Person - HTTP.DELETE")
     @DirtiesContext
     void givenMockMvc_whenDeletingPerson_thenSucceed() throws Exception {
