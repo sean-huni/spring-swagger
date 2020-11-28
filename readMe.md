@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/sean-huni/spring-swagger/tree/dev.svg?style=svg)](https://circleci.com/gh/sean-huni/spring-swagger/tree/dev)   [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sean-huni_spring-swagger&branch=dev&metric=alert_status)](https://sonarcloud.io/dashboard?branch=dev&id=sean-huni_spring-swagger)
+[![CircleCI](https://circleci.com/gh/sean-huni/spring-swagger/tree/master.svg?style=svg)](https://circleci.com/gh/sean-huni/spring-swagger/tree/master)   [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sean-huni_spring-swagger&branch=master&metric=alert_status)](https://sonarcloud.io/dashboard?branch=master&id=sean-huni_spring-swagger)
 # Swagger Spring Boot Project
 
 In light of some of the challenges experienced in most Java EE projects, this project have been built to express some 
