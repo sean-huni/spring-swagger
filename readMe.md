@@ -180,11 +180,11 @@ Execute the following to launch the project:
 
  - On Unix/MacOS
  
- ▶ `./gradlew bootRun`
+ ▶ `./gradlew bootRun --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}`
     
  - On Windows:
 
- ▶ `gradlew.bat run`
+ ▶ `gradlew.bat run --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}`
     
 Ctrl+C to terminate the application in execution.
 
@@ -203,11 +203,11 @@ Permitted arguments:
      
 * On Unix/MacOS:
     
- ▶ `sh gradlew test`
+ ▶ `sh gradlew test --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}`
        
 * On Windows: 
     
- ▶ `gradlew.bat test`
+ ▶ `gradlew.bat test --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}`
  
 # Restful API Swagger-Documentation
 Once the application has been launched successfully, it's now time to play with it.

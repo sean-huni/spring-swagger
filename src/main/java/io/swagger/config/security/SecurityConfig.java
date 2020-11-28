@@ -79,8 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, REQ_MAPPING_PEOPLE + REQ_MAPPING_ASTERISKS).hasRole(ROLE_SERVICE)//
                 .antMatchers(HttpMethod.PATCH, REQ_MAPPING_PEOPLE + REQ_MAPPING_ASTERISKS).hasRole(ROLE_SERVICE)//
                 .antMatchers(HttpMethod.DELETE, REQ_MAPPING_PEOPLE + REQ_MAPPING_ASTERISKS).hasRole(ROLE_ADMIN)
-                .and()
-                .antMatcher(ASTERISKS + FWD_SLASH + "h2-console" + REQ_MAPPING_ASTERISKS).authorizeRequests()
+                .antMatchers(HttpMethod.GET, ASTERISKS + FWD_SLASH + "h2-console" + REQ_MAPPING_ASTERISKS).hasRole(ROLE_ADMIN)
                 .and()
                 .formLogin()
                 .loginPage(FWD_SLASH + "login").permitAll()
