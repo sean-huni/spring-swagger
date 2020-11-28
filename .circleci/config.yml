@@ -72,7 +72,7 @@ jobs:
       # -P, --project-prop                 Set project property for the build script (e.g. -Pmyprop=myvalue).
       # -D, --system-prop                  Set system property of the JVM (e.g. -Dmyprop=myvalue).
       - run:
-          name: Inject Secrets Vault INTO App
+          name: Inject Secrets Vault into the Spring Swagger Appication
           command: |
             sh gradlew test --debug --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}
 

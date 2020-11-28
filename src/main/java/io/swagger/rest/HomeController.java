@@ -2,7 +2,7 @@ package io.swagger.rest;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Home redirection to swagger api documentation
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Log4j2
 public class HomeController {
 
-    @RequestMapping(value = "/")
+    @GetMapping(value = "/")
     public String index() {
         log.info("Redirected >> swagger-ui.html");
         return "redirect:swagger-ui/";
