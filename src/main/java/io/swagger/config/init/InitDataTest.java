@@ -15,7 +15,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @Component
-@Profile("test")
+@Profile("dev")
 public class InitDataTest implements InitData {
     private PersonRepo personRepo;
 
@@ -36,7 +36,7 @@ public class InitDataTest implements InitData {
         p.setAristocraticTitle("Elf");
         p.setFullName("Sean");
         p.setFamilyName("Huni");
-        p.setGender(Gender.Male);
+        p.setGender(Gender.MALE);
         p.setBirthDate(ZonedDateTime.of(1989, 8, 24, 17, 25, 0, 0, ZoneId.systemDefault()));
         p.setCountryOfBirth("Zimbabwe");
         p.setVersion("1.0.0");
@@ -44,5 +44,6 @@ public class InitDataTest implements InitData {
     }
 
     public void init() {
+        //Used to inject the instance of the Test configuration.
     }
 }

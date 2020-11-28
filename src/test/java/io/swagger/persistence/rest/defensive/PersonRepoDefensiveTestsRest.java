@@ -4,8 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +14,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static io.swagger.commons.Constant.ROLE_SERVICE;
+import static io.swagger.ext.util.TestUtility.fromStreamToString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -24,9 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static util.TestUtility.fromStreamToString;
 
-@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PersonRepoDefensiveTestsRest {
@@ -39,9 +37,28 @@ public class PersonRepoDefensiveTestsRest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("Create-Failing Person ")
-    @WithMockUser(username = "spring", roles = "SERVICE")
-    @DirtiesContext
+    @DisplayName("Prevent Create Person with Unauthorised Access")
+    void givenNoMockedUser_whenCreatingAPerson_thenThrowException_andReturnClientUnauthorisedAccessErrorMessage() throws Exception {
+        Resource resource = resourceLoader.getResource("classpath:json/test-case.json");
+        String jsonStr = fromStreamToString(resource.getInputStream());
+
+        LOGGER.info("Test-Case: \n{}", jsonStr);
+
+        mockMvc.perform(post(ROOT_URI + "/people")
+                .contentType("application/json")
+                .content(jsonStr))
+                .andDo(print())
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code", is("Unauthorized")))
+                .andExpect(jsonPath("$.status", is("401")))
+                .andExpect(jsonPath("$.reason", is("An Authentication object was not found in the SecurityContext")))
+                .andExpect(jsonPath("$.message", is("Unauthorised Access. Please login and try again.")))
+                .andExpect(jsonPath("$.referenceError", is(ROOT_URI + "/people")));
+    }
+
+    @Test
+    @DisplayName("Create Person with Validations Errors")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     void givenMockMvc_whenCreatingAPerson_thenThrowException_andReturnClientErrorMessage() throws Exception {
         Resource resource = resourceLoader.getResource("classpath:json/test-case.json");
         String jsonStr = fromStreamToString(resource.getInputStream());
@@ -52,16 +69,17 @@ public class PersonRepoDefensiveTestsRest {
                 .contentType("application/json")
                 .content(jsonStr))
                 .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code", is("Bad Request")))
-                .andExpect(jsonPath("$.status", is("400")))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code", is("Forbidden")))
+                .andExpect(jsonPath("$.status", is("403")))
+                .andExpect(jsonPath("$.field", is("fullName")))
+                .andExpect(jsonPath("$.reason", is("length must be between 1 and 255")))
                 .andExpect(jsonPath("$.message", is("Please check the input-values in your request-payload and try again.")))
-                .andExpect(jsonPath("$.referenceError", is(ROOT_URI + "/people")))
-                .andReturn();
+                .andExpect(jsonPath("$.referenceError", is(ROOT_URI + "/people")));
     }
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Update a non-Existing Person - HTTP.PATCH")
     @DirtiesContext
     void givenMockMvc_whenUpdatingAnExistingPerson_thenReturnIsCreated_withRedirectedUrlToNewPersonObject() throws Exception {
@@ -72,12 +90,11 @@ public class PersonRepoDefensiveTestsRest {
                 .contentType("application/json")
                 .content(jsonStr))
                 .andDo(print())
-                .andExpect(status().isNotFound())
-                .andReturn();
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Delete A Non-Existing Person - HTTP.DELETE")
     @DirtiesContext
     void givenMockMvc_whenDeletingPerson_thenSucceed() throws Exception {
@@ -85,8 +102,7 @@ public class PersonRepoDefensiveTestsRest {
                 .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
-                .andReturn();
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException));
     }
 
 }

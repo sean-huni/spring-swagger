@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: party-identity
+  profiles:
+    active: dev
+  cloud:
+    vault:
+      token: ${VAULT_TOKEN}
+      #      scheme: http
+      kv:
+        enabled: true
+      #      host: 127.0.0.1
+      #      port: 8200
+      uri: ${VAULT_ADDR}
+      authentication: TOKEN

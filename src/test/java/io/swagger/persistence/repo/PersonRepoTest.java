@@ -19,9 +19,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.io.IOException;
 import java.util.List;
 
+import static io.swagger.commons.Constant.ROLE_SERVICE;
+import static io.swagger.ext.util.TestUtility.fromStreamToString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static util.TestUtility.fromStreamToString;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -48,7 +49,7 @@ class PersonRepoTest {
 
     @Test
     @DisplayName("Find at least 1 Individual/person record in the Person-Table")
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     void givenPersonRepo_whenInvokingPersonRepoFind_returnOnePersonInTable() {
         List<Person> personList = personRepo.findAll();
 
@@ -57,7 +58,7 @@ class PersonRepoTest {
     }
 
     @Test
-    @WithMockUser(username = "spring", roles = "SERVICE")
+    @WithMockUser(username = "spring", roles = ROLE_SERVICE)
     @DisplayName("Save at least 1 other Individual/person record in the Person-Table")
     @DirtiesContext
     void givenPersonJsonString_whenSavingNewPerson_thenSaveNewPerson() throws IOException {
