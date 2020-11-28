@@ -9,7 +9,7 @@ public abstract class AbstractControllerAdvice {
     private static final Locale LOCALE = Locale.ENGLISH;
     private final MessageSource messageSource;
 
-    public AbstractControllerAdvice(MessageSource messageSource) {
+    protected AbstractControllerAdvice(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 

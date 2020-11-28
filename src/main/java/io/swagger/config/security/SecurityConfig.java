@@ -14,8 +14,13 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static io.swagger.commons.Constant.ASTERISKS;
+import static io.swagger.commons.Constant.FWD_SLASH;
+import static io.swagger.commons.Constant.REQ_MAPPING_ASTERISKS;
+import static io.swagger.commons.Constant.REQ_MAP_FWD_PEOPLE;
 import static io.swagger.commons.Constant.ROLE_ADMIN;
 import static io.swagger.commons.Constant.ROLE_SERVICE;
+import static io.swagger.commons.Constant.SOUT_USERNAME_PASSWORD;
 
 @Log4j2
 @Configuration
@@ -23,6 +28,7 @@ import static io.swagger.commons.Constant.ROLE_SERVICE;
 @EnableWebSecurity
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final String REQ_MAP_PEOPLE = REQ_MAP_FWD_PEOPLE + REQ_MAPPING_ASTERISKS;
 
     private final IVaultConfig iVaultConfig;
 
@@ -38,12 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails serviceUser = User.withUsername(iVaultConfig.getServiceUsername()).password(encoder.encode(iVaultConfig.getServicePassword())).roles(ROLE_SERVICE).build();
 
         // remember the password that is printed out and use in the next step
-        log.warn("Vault Admin-User Secrets");
-        log.info("Username: {}, Password: {}", iVaultConfig.getAdminUsername(), iVaultConfig.getAdminPassword());
-        log.warn("Vault Service-User Secrets");
-        log.info("Username: {}, Password: {}", iVaultConfig.getServiceUsername(), iVaultConfig.getServicePassword());
-        log.warn("Vault Database-User Secrets");
-        log.info("Username: {}, Password: {}", iVaultConfig.getDatabaseUsername(), iVaultConfig.getDatabasePassword());
+        log.debug("Vault Admin-User Secrets");
+        log.debug(SOUT_USERNAME_PASSWORD, iVaultConfig.getAdminUsername(), iVaultConfig.getAdminPassword());
+        log.debug("Vault Service-User Secrets");
+        log.debug(SOUT_USERNAME_PASSWORD, iVaultConfig.getServiceUsername(), iVaultConfig.getServicePassword());
+        log.debug("Vault Database-User Secrets");
+        log.debug(SOUT_USERNAME_PASSWORD, iVaultConfig.getDatabaseUsername(), iVaultConfig.getDatabasePassword());
 
         return new InMemoryUserDetailsManager(adminUser, serviceUser);
     }
@@ -69,18 +75,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.httpBasic().and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/people").hasRole(ROLE_SERVICE)//
-                .antMatchers(HttpMethod.POST, "/people").hasRole(ROLE_SERVICE)//
-                .antMatchers(HttpMethod.PUT, "/people/**").hasRole(ROLE_SERVICE)//
-                .antMatchers(HttpMethod.PATCH, "/people/**").hasRole(ROLE_SERVICE)//
-                .antMatchers(HttpMethod.DELETE, "/people/**").hasRole(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, REQ_MAP_FWD_PEOPLE).hasRole(ROLE_SERVICE)//
+                .antMatchers(HttpMethod.POST, REQ_MAP_FWD_PEOPLE).hasRole(ROLE_SERVICE)//
+                .antMatchers(HttpMethod.PUT, REQ_MAP_FWD_PEOPLE).hasRole(ROLE_SERVICE)//
+                .antMatchers(HttpMethod.PATCH, REQ_MAP_PEOPLE).hasRole(ROLE_SERVICE)//
+                .antMatchers(HttpMethod.DELETE, REQ_MAP_PEOPLE).hasRole(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, ASTERISKS + FWD_SLASH + "h2-console" + REQ_MAPPING_ASTERISKS).hasRole(ROLE_ADMIN)
                 .and()
-                .csrf().disable()
-                .antMatcher("**/h2-console/**").authorizeRequests()
+                .antMatcher("swagger-ui/").authorizeRequests().anyRequest().hasAnyRole(ROLE_ADMIN, ROLE_SERVICE)
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+                .loginPage(FWD_SLASH + "login").permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().permitAll()
+                .logoutSuccessUrl(FWD_SLASH);
     }
 }

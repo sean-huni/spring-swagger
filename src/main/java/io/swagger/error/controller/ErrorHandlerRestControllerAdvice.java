@@ -39,29 +39,22 @@ public class ErrorHandlerRestControllerAdvice extends AbstractControllerAdvice {
         log.error(cve.getMessage(), cve);
         log.info(errorResp);
         ConstraintViolation<?> cv = cve.getConstraintViolations().stream().findFirst().orElseThrow(() -> new MissingPropertyException("Missing Constraint-Violations"));
-        Error error = new Error()
-                .code(HttpStatus.FORBIDDEN.getReasonPhrase())
-                .message(errorResp)
-                .reason(Objects.nonNull(cv) ? cv.getMessage() : null)
-                .field(Objects.nonNull(cv) && Objects.nonNull(cv.getPropertyPath()) ? cv.getPropertyPath().toString() : null)
-                .status(String.valueOf(HttpStatus.FORBIDDEN.value()))
-                .referenceError(req.getRequestURI());
-        log.debug("Error Response: {}", error);
-        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+        return getErrorResponseEntity(req, errorResp, cv);
     }
 
 
     /**
-     * With Spring <= 2.3.6.RELEASE, You cannot catch ConstraintViolationException.class because
-     * it's not propagated to that layer of the code, it's caught by the lower layers, wrapped
+     * With Spring <= 2.3.6.RELEASE, You cannot catch the nested ConstraintViolationException.class
+     * because it's not propagated to that layer of the code, it's caught by the lower layers, wrapped
      * and rethrown under {@link TransactionSystemException} type. In the end, the exception
      * that is thrown at the web layer is not a {@link ConstraintViolationException}.
      *
      * @param transactionSystemException {@link TransactionSystemException}
      * @param req                        {@link HttpServletRequest}
      * @return {@link ResponseEntity} with propagated error.
+     * @deprecated once upgraded to the latest version of spring. this must be phased out.
      */
-    @Deprecated
+    @Deprecated(since = "Spring Version: 2.4.0", forRemoval = true)
     @ExceptionHandler(TransactionSystemException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     ResponseEntity<Error> handleTransactionSystemException(TransactionSystemException transactionSystemException, HttpServletRequest req) {
@@ -70,6 +63,10 @@ public class ErrorHandlerRestControllerAdvice extends AbstractControllerAdvice {
         log.error(cve.getMessage(), cve);
         log.info(errorResp);
         ConstraintViolation<?> cv = cve.getConstraintViolations().stream().findFirst().orElseThrow(() -> new MissingPropertyException("Missing Constraint-Violation Property Not Provided"));
+        return getErrorResponseEntity(req, errorResp, cv);
+    }
+
+    private ResponseEntity<Error> getErrorResponseEntity(HttpServletRequest req, String errorResp, ConstraintViolation<?> cv) {
         Error error = new Error()
                 .code(HttpStatus.FORBIDDEN.getReasonPhrase())
                 .message(errorResp)
@@ -77,7 +74,7 @@ public class ErrorHandlerRestControllerAdvice extends AbstractControllerAdvice {
                 .field(Objects.nonNull(cv) && Objects.nonNull(cv.getPropertyPath()) ? cv.getPropertyPath().toString() : null)
                 .status(String.valueOf(HttpStatus.FORBIDDEN.value()))
                 .referenceError(req.getRequestURI());
-        log.debug("Error Response: {}", error);
+        log.info("Error Response: {}", error);
         return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
 
@@ -86,8 +83,9 @@ public class ErrorHandlerRestControllerAdvice extends AbstractControllerAdvice {
      *
      * @param transactionSystemException {@link TransactionSystemException}.
      * @return {@link Set<ConstraintViolation>}.
+     * @deprecated once upgraded to the latest version of spring. this must be phased out.
      */
-    @Deprecated
+    @Deprecated(since = "Spring Version: 2.4.0", forRemoval = true)
     private Set<ConstraintViolation<?>> getConstraintViolations(TransactionSystemException transactionSystemException) {
         return ((ConstraintViolationException) transactionSystemException.getCause().getCause()).getConstraintViolations();
     }

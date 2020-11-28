@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/sean-huni/spring-swagger/tree/master.svg?style=svg)](https://circleci.com/gh/sean-huni/spring-swagger/tree/master)   [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sean-huni_spring-swagger&branch=master&metric=alert_status)](https://sonarcloud.io/dashboard?branch=master&id=sean-huni_spring-swagger)
+[![CircleCI](https://circleci.com/gh/sean-huni/spring-swagger/tree/dev.svg?style=svg)](https://circleci.com/gh/sean-huni/spring-swagger/tree/dev)   [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sean-huni_spring-swagger&branch=dev&metric=alert_status)](https://sonarcloud.io/dashboard?branch=dev&id=sean-huni_spring-swagger)
 # Swagger Spring Boot Project
 
 In light of some of the challenges experienced in most Java EE projects, this project have been built to express some 
@@ -180,11 +180,11 @@ Execute the following to launch the project:
 
  - On Unix/MacOS
  
- ▶ `./gradlew bootRun`
+ ▶ `./gradlew bootRun --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}`
     
  - On Windows:
 
- ▶ `gradlew.bat run`
+ ▶ `gradlew.bat run --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}`
     
 Ctrl+C to terminate the application in execution.
 
@@ -203,11 +203,11 @@ Permitted arguments:
      
 * On Unix/MacOS:
     
- ▶ `sh gradlew test`
+ ▶ `sh gradlew test --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}`
        
 * On Windows: 
     
- ▶ `gradlew.bat test`
+ ▶ `gradlew.bat test --system-prop VAULT_TOKEN=${VAULT_TOKEN} --system-prop VAULT_ADDR=${VAULT_ADDR}`
  
 # Restful API Swagger-Documentation
 Once the application has been launched successfully, it's now time to play with it.
