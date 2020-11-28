@@ -82,11 +82,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, REQ_MAP_PEOPLE).hasRole(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, ASTERISKS + FWD_SLASH + "h2-console" + REQ_MAPPING_ASTERISKS).hasRole(ROLE_ADMIN)
                 .and()
-                .antMatcher("swagger-ui/").authorizeRequests().anyRequest().hasRole(ROLE_ADMIN)
+                .antMatcher("swagger-ui/").authorizeRequests().anyRequest().hasAnyRole(ROLE_ADMIN, ROLE_SERVICE)
                 .and()
                 .formLogin()
                 .loginPage(FWD_SLASH + "login").permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().permitAll()
+                .logoutSuccessUrl(FWD_SLASH);
     }
 }
